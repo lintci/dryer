@@ -5,12 +5,12 @@ class Repository
   class << self
     def clone(repositories_path, payload, build_id)
       repo = Rugged::Repository.clone_at(
-        payload.ssh_url,
+        payload.clone_url,
         clone_directory(repositories_path, payload, build_id),
-        checkout_branch: branch
+        checkout_branch: payload.branch
       )
 
-      yield (repository = new(repo, owner, project))
+      yield (repository = new(repo, payload.owner, payload.repo))
 
       repository.destroy!
     end
@@ -21,19 +21,19 @@ class Repository
       File.join(
         repositories_path,
         payload.owner,
-        payload.project,
+        payload.repo,
         payload.branch,
         build_id.to_s
       )
     end
   end
 
-  attr_reader :owner, :project
+  attr_reader :owner, :name
 
-  def initialize(repo, owner, project)
+  def initialize(repo, owner, name)
     @repo = repo
     @owner = owner
-    @project = project
+    @name = name
   end
 
   def branch
@@ -41,7 +41,7 @@ class Repository
   end
 
   def local_path
-    repo.path.sub('.git/', '')
+    repo.path.sub('/.git/', '')
   end
 
   def destroy!

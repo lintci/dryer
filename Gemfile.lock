@@ -82,6 +82,9 @@ GEM
     rspec-expectations (3.0.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.0.0)
+    rspec-its (1.0.1)
+      rspec-core (>= 2.99.0.beta1)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-mocks (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-rails (3.0.2)
@@ -93,6 +96,7 @@ GEM
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.4)
+    rugged (0.21.0)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -129,7 +133,9 @@ DEPENDENCIES
   activejob
   jbuilder (~> 2.0)
   rails (= 4.1.5)
+  rspec-its
   rspec-rails (~> 3.0.0)
+  rugged
   sdoc (~> 0.4.0)
   sidekiq
   spring

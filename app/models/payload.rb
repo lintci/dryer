@@ -4,27 +4,27 @@ class Payload
   end
 
   def base_sha
-    data.base.sha
+    data['pull_request']['base']['sha']
   end
 
   def head_sha
-    data.head.sha
+    data['pull_request']['head']['sha']
   end
 
   def branch
-    data.head.ref
+    data['pull_request']['head']['ref']
   end
 
-  def ssh_url
-    data.head.repo.ssh_url
+  def clone_url
+    data['pull_request']['head']['repo']['git_url']
   end
 
   def owner
-    data.head.repo.owner.login
+    data['pull_request']['head']['repo']['owner']['login']
   end
 
-  def project
-    data.head.repo.name
+  def repo
+    data['pull_request']['head']['repo']['name']
   end
 
 private

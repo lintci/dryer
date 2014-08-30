@@ -13,6 +13,7 @@ gem 'spring',    group: :development
 
 gem 'activejob'
 gem 'sidekiq'
+gem 'rugged'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -28,4 +29,5 @@ gem 'sidekiq'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-its'
 end

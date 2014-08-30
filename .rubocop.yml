@@ -1,0 +1,18 @@
+AllCops:
+  Exclude:
+    - 'spec/fixtures/*'
+
+Style/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Style/LineLength:
+  Max: 120
+
+Style/RegexpLiteral:
+  MaxSlashes: 0
+
+Style/SpaceBeforeBlockBraces:
+  Enabled: false
+
+Style/SpaceInsideBlockBraces:
+  Enabled: false
