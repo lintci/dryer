@@ -1,15 +1,14 @@
 class Build
   attr_reader :id, :payload
 
-  def initialize(id, payload)
+  def initialize(id, data)
     @id = id
-    @payload = Payload.new(payload)
+    @payload = Payload.new(data)
   end
 
   def run
     clone_repository do |repo|
-      diff = repo.diff(payload.head_sha, payload.base_sha)
-      files = diff.modified_files
+      files = repo.modified_files.group_by{|file| file.linters}
       linters = linters_for(files)
       linters.each do |linter|
         linter.lint
@@ -20,7 +19,9 @@ class Build
 private
 
   def clone_repository
-    Repository.clone(repositories_path, payload, id, &Proc.new)
+    return unless payload.pull_request?
+
+    Repository.clone(repositories_path, payload.pull_request, id, &Proc.new)
   end
 
   def repositories_path

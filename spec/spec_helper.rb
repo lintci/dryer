@@ -1,7 +1,8 @@
-require 'rspec/its'
-
 $LOAD_PATH.unshift(File.expand_path('../../app', __FILE__))
+
+require 'rspec/its'
 require_relative 'support/fixture_file'
+require_relative 'support/context/local_git_repo'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

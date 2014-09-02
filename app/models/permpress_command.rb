@@ -1,15 +1,14 @@
+# Wraps execution of a permpress linting command
 class PermpressCommand
-  attr_reader :linter, :files, :options
+  attr_reader :linter
 
-  def initialize(linter, files, options = [])
+  def initialize(linter)
     @linter = linter
-    @files = files
-    @options = options
   end
 
-  def run(io = $stdout)
+  def run(files, config_file)
     Bundler.with_clean_env do
-      Open3.popen3(command) do |_, stdout, _, thread|
+      Open3.popen3(command(files, config_file)) do |_, stdout, _, thread|
         yield stdout
 
         thread.value.exitstatus
@@ -17,18 +16,17 @@ class PermpressCommand
     end
   end
 
-  def command
-    "permpress #{linter.name} lint #{flags} #{arguments} 2>&1"
+  def command(files, config_file)
+    "permpress #{linter.command_name} lint #{flags(config_file)} #{arguments(files)} 2>&1"
   end
-  alias_method :to_s, :command
 
 private
 
-  def flags
-    Shellwords.join(options)
+  def flags(config_file)
+    "--config #{config_file}" if config_file
   end
 
-  def arguments
+  def arguments(files)
     Shellwords.join(files)
   end
 end
