@@ -24,22 +24,17 @@ class Repository
     end
   end
 
-  attr_reader :owner, :name
+  attr_reader :slug
 
-  def initialize(repo, owner, name)
+  def initialize(repo, slug)
     @repo = repo
-    @owner = owner
-    @name = name
+    @slug = slug
   end
 
   def modified_files(pull_request)
     diff = repo.diff(pull_request.base_sha, pull_request.head_sha)
 
-    changed_patches = diff.patches.select do |patch|
-      patch.added? || patch.modified?
-    end
-
-    changed_patches.map{|patch| ModifiedFile.new(patch)}
+    ModifiedFiles.new(diff)
   end
 
   def branch
@@ -52,6 +47,10 @@ class Repository
 
   def destroy!
     FileUtils.rm_rf(local_path)
+  end
+
+  def inspect
+    "<Repository: #{slug}>"
   end
 
 private

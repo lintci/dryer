@@ -1,27 +1,29 @@
 class Build
-  attr_reader :id, :payload
+  attr_reader :id, :pull_request
 
   def initialize(id, data)
     @id = id
-    @payload = Payload.new(data)
+    @pull_request = PullRequest.new(data)
   end
 
   def run
     clone_repository do |repo|
-      files = repo.modified_files.group_by{|file| file.linters}
-      linters = linters_for(files)
-      linters.each do |linter|
-        linter.lint
+      files = repo.modified_files(pull_request)
+
+      files.each_grouped_by_linter do |linter, file_group|
+        linter.lint(file_group)
       end
     end
+  end
+
+  def inspect
+    "<Build: ##{id} #{pull_request.slug}>"
   end
 
 private
 
   def clone_repository
-    return unless payload.pull_request?
-
-    Repository.clone(repositories_path, payload.pull_request, id, &Proc.new)
+    Repository.clone(repositories_path, pull_request, id, &Proc.new)
   end
 
   def repositories_path
