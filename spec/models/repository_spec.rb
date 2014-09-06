@@ -33,7 +33,7 @@ describe Repository do
 
   context 'with initialized repository' do
     include_context 'local git repo'
-    subject(:repository){Repository.new(repo, 'lintci', 'guinea_pig')}
+    subject(:repository){Repository.new(repo, 'lintci/guinea_pig/mostly-bad')}
 
     after(:each){FileUtils.rm_rf(repo_path)}
 

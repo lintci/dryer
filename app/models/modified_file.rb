@@ -1,7 +1,6 @@
 # Tracks modified file information like line changes and file language
 class ModifiedFile
   attr_reader :name, :path
-  alias_method :name, :to_s
 
   def initialize(patch, repository_path)
     @name = patch.delta.new_file[:path]
@@ -23,6 +22,10 @@ class ModifiedFile
 
   def modified_lines
     @modified_lines.keys
+  end
+
+  def to_s
+    @name
   end
 
 private

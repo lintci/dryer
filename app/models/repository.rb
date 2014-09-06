@@ -12,7 +12,7 @@ class Repository
         checkout_branch: pull_request.branch
       )
 
-      yield (repository = new(repo, pull_request.owner, pull_request.repo))
+      yield (repository = new(repo, pull_request.slug))
 
       repository.destroy!
     end
