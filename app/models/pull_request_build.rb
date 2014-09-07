@@ -1,4 +1,5 @@
-class Build
+# Lints a pull request
+class PullRequestBuild
   attr_reader :id, :pull_request
 
   def initialize(id, data)
@@ -10,8 +11,8 @@ class Build
     clone_repository do |repo|
       files = repo.modified_files(pull_request)
 
-      files.each_grouped_by_linter do |linter, file_group|
-        linter.lint(file_group)
+      files.grouped_by_linter do |linter, modified_files|
+        LintWorker.new(linter, modified_files, Subscription.new)
       end
     end
   end

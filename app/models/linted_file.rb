@@ -4,10 +4,12 @@ class LintedFile
 
   def initialize(name)
     @name = name
-    @violations = []
+    @violations = Violations.new
   end
 
-  def add_violation(violation)
-    @violations << Violation.new(violation)
+  def relevant_violations(modified_files)
+    modified_lines = modified_files[name].modified_lines
+
+    violations.filter_by_lines(modified_lines)
   end
 end

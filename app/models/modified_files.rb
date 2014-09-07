@@ -1,3 +1,4 @@
+# Manages a list of modified files
 class ModifiedFiles
   def initialize(diff)
     changed_patches = diff.patches.select do |patch|
@@ -10,11 +11,11 @@ class ModifiedFiles
     end.to_h
   end
 
-  def each_grouped_by_linter
+  def grouped_by_linter
     group_by_linters.each(&Proc.new)
   end
 
-  def file(name)
+  def [](name)
     @files[name]
   end
 

@@ -4,6 +4,7 @@ class Violation
   WARNING = 'warning'
 
   attr_reader :line, :column, :length, :rule, :severity, :message
+  alias_method :to_comment, :message
 
   # rubocop:disable Metrics/ParameterLists
   def initialize(line: 0, column: 0, length: 0, rule: nil, severity: ERROR, message: nil, **)

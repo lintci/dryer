@@ -40,6 +40,10 @@ class PullRequest
     "<PullRequest:#{slug} (#{base_sha[0..6]}...#{head_sha[0..6]})>"
   end
 
+  def comment(file, line, violations)
+
+  end
+
 protected
 
   attr_reader :data
