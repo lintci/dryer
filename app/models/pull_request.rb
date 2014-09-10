@@ -4,6 +4,10 @@ class PullRequest
     @data = data
   end
 
+  def id
+    data['number']
+  end
+
   def base_sha
     data['base']['sha']
   end
@@ -41,7 +45,7 @@ class PullRequest
   end
 
   def comment(file, line, violations)
-
+    Comment.new(self).add(file, line, violations.to_comment)
   end
 
 protected
