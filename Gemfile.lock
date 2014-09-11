@@ -75,6 +75,7 @@ GEM
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.1)
+    lint_trap (0.0.1)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -191,6 +192,7 @@ DEPENDENCIES
   factory_girl_rails
   github-linguist
   jbuilder (~> 2.0)
+  lint_trap
   octokit
   pry-byebug
   pry-rails

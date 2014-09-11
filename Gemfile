@@ -16,6 +16,7 @@ gem 'sidekiq'
 gem 'rugged'
 gem 'github-linguist'
 gem 'octokit'
+gem 'lint_trap'
 
 gem 'pry-rails'
 gem 'pry-byebug'
