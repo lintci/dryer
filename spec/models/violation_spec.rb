@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'models/violation'
 
 describe Violation do
   subject(:violation){build(:violation)}

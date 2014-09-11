@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'models/line_violations'
-require 'models/violation'
 
 describe LineViolations do
   subject(:line_violations){build(:line_violations)}

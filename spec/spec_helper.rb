@@ -1,11 +1,20 @@
-$LOAD_PATH.unshift(File.expand_path('../../app', __FILE__))
-
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
+require 'rspec/rails'
 require 'rspec/its'
 require 'factory_girl_rails'
-require_relative 'support/fixture_file'
-require_relative 'support/context/local_git_repo'
+require 'vcr'
 
-FactoryGirl.find_definitions
+Dir[Rails.root.join('spec/support/**/*.rb')].each{|f| require f}
+
+VCR.configure do |config|
+  config.cassette_library_dir = File.expand_path('../fixtures/vcr_cassettes', __FILE__)
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.filter_sensitive_data('<CREDENTIALS>') do
+    "#{ENV['GITHUB_USER']}:#{ENV['GITHUB_PASSWORD']}"
+  end
+end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

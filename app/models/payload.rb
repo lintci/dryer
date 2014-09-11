@@ -1,3 +1,4 @@
+# Wraps a paylaod from Github
 class Payload
   def initialize(data)
     @data = data

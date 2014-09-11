@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'models/pull_request'
-require 'models/repository'
 require 'fileutils'
 
 describe Repository do

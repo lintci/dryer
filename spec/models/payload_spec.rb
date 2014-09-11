@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'models/payload'
 
 describe Payload do
   let(:data) do

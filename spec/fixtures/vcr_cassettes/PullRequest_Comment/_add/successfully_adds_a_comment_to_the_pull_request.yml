@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<CREDENTIALS>@api.github.com/repos/lintci/guinea_pig/pulls/1/comments
+    body:
+      encoding: UTF-8
+      string: '{"body":"Nice comment.","commit_id":"6dbc62fe88432b6f9489a3d9f00dddf955a44c4e","path":"Good.java","position":"3"}'
+    headers:
+      Accept:
+      - application/vnd.github.v3+json
+      User-Agent:
+      - Octokit Ruby Gem 3.3.1
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 11 Sep 2014 01:17:43 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Status:
+      - 201 Created
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4997'
+      X-Ratelimit-Reset:
+      - '1410401255'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Etag:
+      - '"9b8f7e41bbc09f162436e7c21474c815"'
+      Location:
+      - https://api.github.com/repos/lintci/guinea_pig/pulls/comments/17399567
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      X-Github-Media-Type:
+      - github.v3; format=json
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - deny
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Length:
+      - '1757'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Github-Request-Id:
+      - 18DA11C1:7FDC:2D8477:5410F837
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"url":"https://api.github.com/repos/lintci/guinea_pig/pulls/comments/17399567","id":17399567,"diff_hunk":"@@
+        -0,0 +1,6 @@\n+/**\n+ * Does absolutely nothing but pass lint checks.\n+ */","path":"Good.java","position":3,"original_position":3,"commit_id":"6dbc62fe88432b6f9489a3d9f00dddf955a44c4e","original_commit_id":"6dbc62fe88432b6f9489a3d9f00dddf955a44c4e","user":{"login":"blatyo","id":71221,"avatar_url":"https://avatars.githubusercontent.com/u/71221?v=2","gravatar_id":"5314a480809843ed9b7893dc54c92ba0","url":"https://api.github.com/users/blatyo","html_url":"https://github.com/blatyo","followers_url":"https://api.github.com/users/blatyo/followers","following_url":"https://api.github.com/users/blatyo/following{/other_user}","gists_url":"https://api.github.com/users/blatyo/gists{/gist_id}","starred_url":"https://api.github.com/users/blatyo/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/blatyo/subscriptions","organizations_url":"https://api.github.com/users/blatyo/orgs","repos_url":"https://api.github.com/users/blatyo/repos","events_url":"https://api.github.com/users/blatyo/events{/privacy}","received_events_url":"https://api.github.com/users/blatyo/received_events","type":"User","site_admin":false},"body":"Nice
+        comment.","created_at":"2014-09-11T01:17:43Z","updated_at":"2014-09-11T01:17:43Z","html_url":"https://github.com/lintci/guinea_pig/pull/1#discussion_r17399567","pull_request_url":"https://api.github.com/repos/lintci/guinea_pig/pulls/1","_links":{"self":{"href":"https://api.github.com/repos/lintci/guinea_pig/pulls/comments/17399567"},"html":{"href":"https://github.com/lintci/guinea_pig/pull/1#discussion_r17399567"},"pull_request":{"href":"https://api.github.com/repos/lintci/guinea_pig/pulls/1"}}}'
+    http_version: 
+  recorded_at: Thu, 11 Sep 2014 01:17:44 GMT
+recorded_with: VCR 2.9.3

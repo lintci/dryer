@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'models/violations'
-require 'models/line_violations'
-require 'models/violation'
 
 describe Violations do
   describe '#grouped_by_line' do

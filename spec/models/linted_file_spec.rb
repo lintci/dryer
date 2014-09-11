@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'models/linted_file'
-require 'models/violation'
 
 describe LintedFile do
   subject(:file){build(:linted_file)}

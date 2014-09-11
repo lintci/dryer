@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'models/modified_file'
 
 describe ModifiedFile do
   include_context 'local git repo'

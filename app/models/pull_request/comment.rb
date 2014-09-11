@@ -28,8 +28,8 @@ class PullRequest
 
     def client
       @client ||= Octokit::Client.new(
-        login: 'defunkt',
-        password: 'c0d3b4ssssss!'
+        login: ENV['GITHUB_USER'],
+        password: ENV['GITHUB_PASSWORD']
       )
     end
   end

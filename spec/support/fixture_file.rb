@@ -15,3 +15,5 @@ module FixtureFile
     JSON.parse(read_fixture_file(path))
   end
 end
+
+include FixtureFile

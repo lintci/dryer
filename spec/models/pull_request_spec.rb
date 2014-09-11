@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'models/pull_request'
-require 'models/pull_request/comment'
 
 describe PullRequest do
   subject(:pull_request){build(:pull_request)}

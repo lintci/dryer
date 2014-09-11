@@ -15,6 +15,7 @@ gem 'activejob'
 gem 'sidekiq'
 gem 'rugged'
 gem 'github-linguist'
+gem 'octokit'
 
 gem 'pry-rails'
 gem 'pry-byebug'
@@ -33,9 +34,12 @@ gem 'pry-byebug'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
-  gem 'rspec-its'
+  gem 'dotenv-rails'
 end
 
 group :test do
+  gem 'rspec-its'
   gem 'factory_girl_rails'
+  gem 'vcr'
+  gem 'webmock'
 end
