@@ -5,7 +5,7 @@ describe PullRequest::Comment do
     let(:pull_request){build(:pull_request)}
     subject(:comment){PullRequest::Comment.new(pull_request)}
 
-    it 'successfully adds a comment to the pull request', :vcr do
+    it 'successfully adds a comment to the pull request', vcr: {match_requests_on: [:method, :host, :path]} do
       result = comment.add('Good.java', '3', 'Nice comment.')
       expect(result.path).to eq('Good.java')
       expect(result.body).to eq('Nice comment.')
