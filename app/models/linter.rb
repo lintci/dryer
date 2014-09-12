@@ -1,4 +1,4 @@
-# Base class for
+# Base class for linters
 class Linter
   def lint(files, config_file)
     permpress_command.run(files, config_file) do |io|

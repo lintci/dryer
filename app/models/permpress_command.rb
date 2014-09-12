@@ -1,3 +1,5 @@
+require 'open3'
+
 # Wraps execution of a permpress linting command
 class PermpressCommand
   attr_reader :linter
@@ -17,13 +19,13 @@ class PermpressCommand
   end
 
   def command(files, config_file)
-    "permpress #{linter.command_name} lint #{flags(config_file)} #{arguments(files)} 2>&1"
+    "permpress #{linter.command_name} lint #{flags(config_file)}#{arguments(files)} 2>&1"
   end
 
 private
 
   def flags(config_file)
-    "--config #{config_file}" if config_file
+    "--config #{config_file} " if config_file
   end
 
   def arguments(files)
