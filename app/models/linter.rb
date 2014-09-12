@@ -6,6 +6,10 @@ class Linter
     end
   end
 
+  def command_name
+    raise NotImplementedError, 'Linters must specify their command name.'
+  end
+
 private
 
   def yield_violations_by_file(io)
