@@ -1,9 +1,11 @@
 # Base class for linters
 class Linter
   def lint(files, config_file)
-    permpress_command.run(files, config_file) do |io|
-      yield_violations_by_file(io)
+    code = permpress_command.run(files, config_file) do |io|
+      yield_violations_by_file(io, &Proc.new)
     end
+
+    success?(code)
   end
 
   def command_name
@@ -15,14 +17,14 @@ private
   def yield_violations_by_file(io)
     file = nil
 
-    LintTrap.parse(io) do |violation|
+    LintTrap.parse(command_name, io) do |violation|
       if linting_new_file?(file, violation)
         yield file unless file.nil?
 
         file = LintedFile.new(violation[:file])
       end
 
-      file.add_violation(violation)
+      file.violations << violation
     end
 
     yield file unless file.nil?
@@ -30,6 +32,10 @@ private
 
   def linting_new_file?(file, violation)
     file.nil? || violation[:file] != file.name
+  end
+
+  def success?(code)
+    code.zero?
   end
 
   def permpress_command

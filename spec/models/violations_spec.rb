@@ -1,9 +1,17 @@
 require 'spec_helper'
 
 describe Violations do
-  describe '#grouped_by_line' do
-    let(:violations){build(:violations)}
+  subject(:violations){build(:violations)}
 
+  its(:inspect) do
+    is_expected.to eq(
+      "<Violations: <LineViolations: #1 <Violation 1:7:4 Style/MethodName:convention:Use snake_case for methods.>>,\n"\
+      "\t<LineViolations: #2 <Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>,\n"\
+      "\t\t<Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>>>"
+    )
+  end
+
+  describe '#grouped_by_line' do
     it 'yields each line and set of violations' do
       expect{|b| violations.grouped_by_line(&b)}.to yield_successive_args(
         ['1', build(:single_line_violations, line: '1')],
@@ -13,7 +21,6 @@ describe Violations do
   end
 
   describe '#filter_by_lines' do
-    let(:violations){build(:violations)}
     let(:first_line_violations){build(:single_violations)}
 
     it 'returns a new violations with just the specified lines' do

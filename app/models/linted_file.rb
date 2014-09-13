@@ -12,4 +12,9 @@ class LintedFile
 
     violations.filter_by_lines(modified_lines)
   end
+
+  def ==(other)
+    name == other.name &&
+      violations == other.violations
+  end
 end

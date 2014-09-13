@@ -7,8 +7,8 @@ describe LineViolations do
   its(:inspect) do
     is_expected.to eq(
       '<LineViolations: #2 '\
-      "<Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>\n"\
-      '<Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>>'
+      "<Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>,\n"\
+      "\t<Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>>"
     )
   end
 

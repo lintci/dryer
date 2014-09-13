@@ -6,7 +6,7 @@ class Violations
   end
 
   def <<(violation_data)
-    violation = Violation.new(violation_data)
+    violation = violation_data.is_a?(Violation) ? violation_data : Violation.new(violation_data)
     violations[violation.line] << violation
   end
 
@@ -24,6 +24,10 @@ class Violations
 
   def ==(other)
     violations == other.violations
+  end
+
+  def inspect
+    "<Violations: #{violations.values.map{|v| v.inspect.gsub(/(\t+)/, "\t" + '\1')}.join(",\n\t")}>"
   end
 
 protected

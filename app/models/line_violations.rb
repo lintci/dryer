@@ -19,7 +19,7 @@ class LineViolations
   end
 
   def inspect
-    "<LineViolations: ##{line} #{violations.map(&:inspect).join("\n")}>"
+    "<LineViolations: ##{line} #{violations.map(&:inspect).join(",\n\t")}>"
   end
 
 protected
