@@ -2,9 +2,9 @@
 class PullRequestBuild
   attr_reader :id, :pull_request
 
-  def initialize(id, data)
+  def initialize(id, pull_request)
     @id = id
-    @pull_request = PullRequest.new(data)
+    @pull_request = pull_request
   end
 
   def run
