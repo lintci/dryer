@@ -1,7 +1,7 @@
 require 'rugged'
 
 shared_context 'local git repo' do
-  let(:repo_path){repo.path.sub('/.git/', '')}
+  let(:repo_path){repo.workdir}
   let(:repo){build(:git_repo, :bad_ruby_file)}
   let(:diff){build(:git_diff, repo: repo)}
   let(:patch){build(:git_patch, diff: diff)}

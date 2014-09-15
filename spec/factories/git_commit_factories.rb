@@ -11,7 +11,7 @@ FactoryGirl.define do
       index = repo.index
       index.add(path: file, oid: oid, mode: 0100644)
 
-      Rugged::Commit.create(
+      commit = Rugged::Commit.create(
         repo,
         tree: index.write_tree(repo),
         author: {email: email, name: author, time: Time.now},
@@ -20,6 +20,9 @@ FactoryGirl.define do
         parents: repo.empty? ? [] : [repo.head.target].compact,
         update_ref: 'HEAD'
       )
+      repo.checkout('HEAD', strategy: :force) # Create missing files
+
+      commit
     end
 
     trait :bad_ruby_file do

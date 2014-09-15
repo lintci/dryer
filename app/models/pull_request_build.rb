@@ -11,9 +11,7 @@ class PullRequestBuild
     clone_repository do |repo|
       files = repo.modified_files(pull_request)
 
-      files.grouped_by_linter do |linter, modified_files|
-        LintWorker.new(linter, modified_files, Subscription.new)
-      end
+      run_linters(files)
     end
   end
 
@@ -22,6 +20,14 @@ class PullRequestBuild
   end
 
 private
+
+  def run_linters
+    workers = files.grouped_by_linter.map do |linter, modified_files|
+      LintWorker.new(pull_request, linter, modified_files, Subscription.new)
+    end
+
+    workers.all?(&:value)
+  end
 
   def clone_repository
     Repository.clone(repositories_path, pull_request, id, &Proc.new)

@@ -4,13 +4,11 @@ require 'linguist'
 class Language
   class << self
     def for(file_blob)
-      class_name = class_name(file_blob.language)
+      class_name = class_name(file_blob.language.name)
 
-      if Language.const_defined?(class_name)
-        Language.const_get(class_name).new
-      else
-        Language::Null.new
-      end
+      Language.const_get(class_name).new
+    rescue NameError
+      Language::Null.new
     end
 
     def class_name(language_name)

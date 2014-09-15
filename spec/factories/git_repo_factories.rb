@@ -4,7 +4,9 @@ FactoryGirl.define do
     name 'test'
 
     initialize_with do
-      Rugged::Repository.init_at(File.join(path, name)).tap do |repo|
+      repo_name = File.join(path, name)
+
+      Rugged::Repository.init_at(repo_name).tap do |repo|
         build(:git_commit, repo: repo)
       end
     end

@@ -34,7 +34,7 @@ class Repository
   def modified_files(pull_request)
     diff = repo.diff(pull_request.base_sha, pull_request.head_sha)
 
-    ModifiedFiles.new(diff)
+    ModifiedFiles.new(diff, local_path)
   end
 
   def branch
@@ -42,7 +42,7 @@ class Repository
   end
 
   def local_path
-    repo.path.sub('/.git/', '')
+    repo.workdir
   end
 
   def destroy!

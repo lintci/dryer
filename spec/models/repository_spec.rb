@@ -6,8 +6,7 @@ describe Repository do
 
   describe '.clone', :integration, :github do
     let(:repository_file){File.join(repositories_path, 'lintci/guinea_pig/mostly-bad/1/bad.json')}
-    let(:pull_request_data){json_fixture_file('github/pull_request_opened_payload.json')['pull_request']}
-    let(:pull_request){PullRequest.new(pull_request_data)}
+    let(:pull_request){build(:pull_request)}
     let(:build_id){1}
 
     it 'clones the repository to the correct directory' do

@@ -35,7 +35,7 @@ private
   end
 
   def success?(code)
-    code.zero?
+    code && code.zero?
   end
 
   def permpress_command
