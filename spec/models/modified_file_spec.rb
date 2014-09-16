@@ -6,7 +6,7 @@ describe ModifiedFile do
   subject(:file){build(:modified_file, patch: patch)}
 
   its(:name){is_expected.to eq('bad.rb')}
-  its(:modified_lines){is_expected.to eq([1])}
+  its(:modified_lines){is_expected.to eq(['1'])}
   its(:path){is_expected.to match(%r{tmp/repos/test/bad\.rb$})}
   its(:language){is_expected.to be_a(Language::Ruby)}
   its(:linters){is_expected.to eq([Linter::Rubocop])}

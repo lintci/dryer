@@ -45,7 +45,7 @@ class PullRequest
   end
 
   def comment(file, line, violations)
-    Comment.new(self).add(file, line, violations.to_comment)
+    Comment.new(self).add(file, line, violations)
   end
 
 protected

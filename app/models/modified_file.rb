@@ -14,10 +14,6 @@ class ModifiedFile
     Language.for(file_blob)
   end
 
-  def line_modified?(line)
-    @modified_lines[line]
-  end
-
   def modified_lines
     @modified_lines.keys
   end
@@ -33,7 +29,7 @@ class ModifiedFile
   end
 
   def inspect
-    "<ModifiedFile: #{name} #{modified_lines.inspect}>"
+    "<ModifiedFile: #{name} #{modified_lines.map(&:to_i).inspect}>"
   end
 
 private
@@ -45,6 +41,6 @@ private
   def modified_lines_for(patch)
     lines = patch.hunks.map(&:lines).flatten
 
-    lines.select(&:addition?).map{|line| [line.new_lineno, true]}.to_h
+    lines.select(&:addition?).map{|line| [line.new_lineno.to_s, true]}.to_h
   end
 end

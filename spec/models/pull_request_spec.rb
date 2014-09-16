@@ -19,7 +19,7 @@ describe PullRequest do
     it 'delegates commenting to PullRequest::Comment' do
       expect_any_instance_of(PullRequest::Comment).to receive(:add).with('bad.rb', '1', 'Use snake_case for methods.')
 
-      pull_request.comment('bad.rb', '1', violations)
+      pull_request.comment('bad.rb', '1', violations.to_comment)
     end
   end
 end
