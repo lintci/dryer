@@ -1,3 +1,5 @@
+require 'lint_trap'
+
 # Tracks modified file information like line changes and file language
 class ModifiedFile
   attr_reader :name, :path
@@ -11,7 +13,7 @@ class ModifiedFile
   delegate :linters, to: :language
 
   def language
-    Language.for(file_blob)
+    LintTrap::Language.find(file_blob.language.name)
   end
 
   def modified_lines

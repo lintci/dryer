@@ -1,5 +1,5 @@
 # Lints a pull request
-class PullRequestBuild
+class AnalyzePullRequest
   attr_reader :id, :pull_request
 
   def initialize(id, pull_request)

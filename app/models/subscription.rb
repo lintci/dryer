@@ -1,2 +1,0 @@
-class Subscription
-end
