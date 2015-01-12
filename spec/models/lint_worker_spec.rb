@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LintWorker do
-  describe 'thread' do
+  xdescribe 'thread' do
     include_context 'local git repo'
     let(:pull_request){build(:pull_request)}
     let(:linter){instance_double(Linter, command_name: 'rubocop')}

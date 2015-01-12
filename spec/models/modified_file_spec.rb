@@ -1,21 +1,29 @@
 require 'spec_helper'
+require 'fileutils'
 
 describe ModifiedFile do
-  include_context 'local git repo'
+  let(:workdir){build(:workdir)}
+  let(:name){'bad.rb'}
+  subject(:file){build(:modified_file, workdir: workdir)}
 
-  subject(:file){build(:modified_file, patch: patch)}
+  around(:each) do |example|
+    FileUtils.mkdir_p(workdir)
+    File.write(file.path, 'class X; end')
+    example.run
+    File.delete(file.path)
+  end
 
-  its(:name){is_expected.to eq('bad.rb')}
-  its(:modified_lines){is_expected.to eq(['1'])}
-  its(:path){is_expected.to match(%r{tmp/repos/test/bad\.rb$})}
-  its(:language){is_expected.to be_a(Language::Ruby)}
-  its(:linters){is_expected.to eq([Linter::Rubocop])}
+  its(:name){is_expected.to eq(name)}
+  its(:lines){is_expected.to eq([1, 2, 3])}
+  its(:path){is_expected.to eq(File.join(workdir, name))}
+  its(:language){is_expected.to eq(LintTrap::Language::Ruby.new)}
+  its(:linters){is_expected.to eq([LintTrap::Linter::RuboCop.new])}
   its(:to_s){is_expected.to eq('bad.rb')}
-  its(:inspect){is_expected.to eq('<ModifiedFile: bad.rb [1]>')}
+  its(:inspect){is_expected.to eq("<ModifiedFile: #{workdir}/bad.rb [1, 2, 3]>")}
 
   describe '#==' do
     context 'with equivalent modified files' do
-      let(:other_file){build(:modified_file, patch: patch)}
+      let(:other_file){build(:modified_file)}
 
       it 'returns true' do
         expect(file).to eq(other_file)
@@ -23,7 +31,7 @@ describe ModifiedFile do
     end
 
     context 'with inequivalent modified files' do
-      let(:other_file){build(:modified_file, patch: patch, path: '/root')}
+      let(:other_file){build(:modified_file, name: 'good.rb')}
 
       it 'returns false' do
         expect(file).to_not eq(other_file)

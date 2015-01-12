@@ -2,18 +2,15 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'rails', '4.2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',      group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',    group: :development
 
-gem 'activejob'
 gem 'sidekiq'
-gem 'rugged'
+gem 'rugged', '~> 0.22.0b4'
 gem 'github-linguist'
 gem 'octokit'
 gem 'lint_trap'
@@ -34,7 +31,7 @@ gem 'pry-byebug'
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-rails'
   gem 'dotenv-rails'
 end
 

@@ -1,54 +1,22 @@
 # Wraps data about a pull request
 class PullRequest
+  attr_reader :id, :base_sha, :head_sha, :branch, :clone_url, :owner, :repo
+
   def initialize(data)
-    @data = data
-  end
-
-  def id
-    data['number']
-  end
-
-  def base_sha
-    data['base']['sha']
-  end
-
-  def head_sha
-    data['head']['sha']
-  end
-
-  def branch
-    data['head']['ref']
-  end
-
-  def clone_url
-    data['head']['repo']['git_url']
-  end
-
-  def owner
-    data['head']['repo']['owner']['login']
-  end
-
-  def repo
-    data['head']['repo']['name']
-  end
-
-  def slug
-    "#{owner}/#{repo}/#{branch}"
+    @id, @base_sha, @head_sha, @branch, @clone_url, @owner, @repo = data.values_at(
+      'id', 'base_sha', 'head_sha', 'branch', 'clone_url', 'owner', 'repo'
+    )
   end
 
   def ==(other)
-    data == other.data
+    id == other.id && owner = other.owner && repo == other.repo
+  end
+
+  def slug
+    "#{owner}/#{repo}/#{head_sha}"
   end
 
   def inspect
-    "<PullRequest:#{slug} (#{base_sha[0..6]}...#{head_sha[0..6]})>"
+    "<PullRequest:#{owner}/#{repo} (#{base_sha[0..6]}...#{head_sha[0..6]})>"
   end
-
-  def comment(file, line, violations)
-    Comment.new(self).add(file, line, violations)
-  end
-
-protected
-
-  attr_reader :data
 end

@@ -2,39 +2,51 @@ require 'spec_helper'
 require 'fileutils'
 
 describe Repository do
-  let(:repositories_path){File.expand_path('../../../tmp/repos', __FILE__)}
+  let(:repositories_path){build(:repos_dir)}
 
   describe '.clone', :integration, :github do
-    let(:repository_file){File.join(repositories_path, 'lintci/guinea_pig/mostly-bad/1/bad.json')}
-    let(:pull_request){build(:pull_request)}
-    let(:build_id){1}
+    let(:repository_file){File.join(repositories_path, "#{task.slug}/bad.json")}
+    let(:task){build(:task)}
+
+    after(:each){FileUtils.rm_r(repositories_path, force: true)}
 
     it 'clones the repository to the correct directory' do
-      Repository.clone(repositories_path, pull_request, build_id) do
+      Repository.clone(repositories_path, task) do
         expect(File).to exist(repository_file)
       end
     end
 
     it 'destroys the repository when the call to clone completes' do
-      Repository.clone(repositories_path, pull_request, build_id){}
+      Repository.clone(repositories_path, task){}
 
       expect(File).to_not exist(repository_file)
     end
 
     it 'yields a repository' do
       expect do |b|
-        Repository.clone(repositories_path, pull_request, build_id, &b)
+        Repository.clone(repositories_path, task, &b)
       end.to yield_with_args(be_a(Repository))
+    end
+
+    it 'checks out the correct commit' do
+      Repository.clone(repositories_path, task) do |repo|
+        expect(repo.head_sha).to eq(task.head_sha)
+      end
     end
   end
 
-  context 'with initialized repository' do
-    include_context 'local git repo'
-    subject(:repository){Repository.new(repo, 'lintci/guinea_pig/mostly-bad')}
+  describe '#modified_files' do
+    let(:repo){instance_double(Rugged::Repository)}
+    let(:base_sha){build(:base_sha)}
+    let(:head_sha){build(:head_sha)}
+    let(:diff){instance_double(Repository::Diff)}
+    subject(:repository){Repository.new(repo)}
 
-    after(:each){FileUtils.rm_rf(repo_path)}
+    it 'delegates to repository diff' do
+      expect(Repository::Diff).to receive(:new).with(repo, base_sha, head_sha).and_return(diff)
+      expect(diff).to receive(:modified_files)
 
-    its(:branch){is_expected.to eq('master')}
-    its(:local_path){is_expected.to eq(repo_path)}
+      repository.modified_files(base_sha, head_sha)
+    end
   end
 end

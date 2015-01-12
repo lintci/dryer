@@ -2,47 +2,37 @@ require 'lint_trap'
 
 # Tracks modified file information like line changes and file language
 class ModifiedFile
-  attr_reader :name, :path
-
-  def initialize(patch, repository_path)
-    @name = patch.delta.new_file[:path]
-    @modified_lines = modified_lines_for(patch)
-    @path = File.join(repository_path, name)
-  end
+  attr_reader :name, :path, :lines
 
   delegate :linters, to: :language
 
-  def language
-    LintTrap::Language.find(file_blob.language.name)
+  def initialize(workdir, name, lines)
+    @name = name
+    @lines = lines
+    @path = File.join(workdir, name)
   end
 
-  def modified_lines
-    @modified_lines.keys
+  def language
+    @language ||= LintTrap::Language.detect(path)
   end
 
   def ==(other)
     name == other.name &&
-      modified_lines == other.modified_lines &&
+      lines == other.lines &&
       path == other.path
   end
 
   def to_s
-    @name
+    name
   end
 
   def inspect
-    "<ModifiedFile: #{name} #{modified_lines.map(&:to_i).inspect}>"
+    "<ModifiedFile: #{path} #{lines.inspect}>"
   end
 
 private
 
   def file_blob
     Linguist::FileBlob.new(path)
-  end
-
-  def modified_lines_for(patch)
-    lines = patch.hunks.map(&:lines).flatten
-
-    lines.select(&:addition?).map{|line| [line.new_lineno.to_s, true]}.to_h
   end
 end

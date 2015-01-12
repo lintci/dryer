@@ -1,13 +1,12 @@
-# Lints a pull request
-class PullRequestBuild
-  attr_reader :id, :pull_request
+require 'command_service'
 
-  def initialize(id, pull_request)
-    @id = id
-    @pull_request = pull_request
+# Lints a pull request
+class CategorizeChanges < CommandService
+  def initialize(data)
+    @task = Task.new(data)
   end
 
-  def run
+  def call
     clone_repository do |repo|
       files = repo.modified_files(pull_request)
 
@@ -15,9 +14,9 @@ class PullRequestBuild
     end
   end
 
-  def inspect
-    "<Build: ##{id} #{pull_request.slug}>"
-  end
+protected
+
+  attr_reader :task
 
 private
 
@@ -30,7 +29,7 @@ private
   end
 
   def clone_repository
-    Repository.clone(repositories_path, pull_request, id, &Proc.new)
+    Repository.clone(repositories_path, task, &Proc.new)
   end
 
   def repositories_path
