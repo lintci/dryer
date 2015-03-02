@@ -4,7 +4,7 @@ class Task
   attr_reader :id, :type, :status, :language, :tool
 
   delegate :pull_request, to: :build
-  delegate :head_sha, :clone_url, to: :pull_request
+  delegate :head_sha, :base_sha, :clone_url, to: :pull_request
 
   def initialize(data)
     @id, @type, @status, @language, @tool, @build = data.values_at(

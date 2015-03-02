@@ -8,7 +8,7 @@ class Repository
 
     def modified_files
       changed_patches.map do |patch|
-        ModifiedFile.new(repo.workdir, file_name(patch), lines(patch))
+        ModifiedFile.build(repo.workdir, file_name(patch), lines(patch))
       end
     end
 

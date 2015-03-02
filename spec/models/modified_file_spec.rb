@@ -14,12 +14,12 @@ describe ModifiedFile do
   end
 
   its(:name){is_expected.to eq(name)}
-  its(:lines){is_expected.to eq([1, 2, 3])}
+  its(:lines){is_expected.to eq((1..4).to_a)}
   its(:path){is_expected.to eq(File.join(workdir, name))}
   its(:language){is_expected.to eq(LintTrap::Language::Ruby.new)}
   its(:linters){is_expected.to eq([LintTrap::Linter::RuboCop.new])}
   its(:to_s){is_expected.to eq('bad.rb')}
-  its(:inspect){is_expected.to eq("<ModifiedFile: #{workdir}/bad.rb [1, 2, 3]>")}
+  its(:inspect){is_expected.to eq("<ModifiedFile: #{workdir}/bad.rb [1, 2, 3, 4]>")}
 
   describe '#==' do
     context 'with equivalent modified files' do

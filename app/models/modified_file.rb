@@ -2,18 +2,27 @@ require 'lint_trap'
 
 # Tracks modified file information like line changes and file language
 class ModifiedFile
-  attr_reader :name, :path, :lines
+  attr_reader :name, :path, :lines, :language
 
-  delegate :linters, to: :language
+  class << self
+    def build(workdir, name, lines)
+      language = LintTrap::Language.detect(File.join(workdir, name))
 
-  def initialize(workdir, name, lines)
+      new(workdir, name, lines, language)
+    end
+  end
+
+  def initialize(workdir, name, lines, language)
     @name = name
     @lines = lines
     @path = File.join(workdir, name)
+    @language = language
   end
 
-  def language
-    @language ||= LintTrap::Language.detect(path)
+  def linters
+    return [] unless language
+
+    language.linters
   end
 
   def ==(other)
@@ -28,6 +37,10 @@ class ModifiedFile
 
   def inspect
     "<ModifiedFile: #{path} #{lines.inspect}>"
+  end
+
+  def read_attribute_for_serialization(name)
+    public_send(name)
   end
 
 private
