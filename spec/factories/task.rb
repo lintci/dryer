@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :task do
+  factory :task, aliases: [:classify_task] do
     id 1
     type 'ClassifyTask'
     status 'queued'
@@ -19,13 +19,7 @@ FactoryGirl.define do
       )
     end
 
-    trait(:classify) do
-      type 'ClassifyTask'
-      language 'All'
-      tool 'Linguist'
-    end
-
-    trait(:lint) do
+    trait(:lint_task) do
       type 'LintTask'
       language 'Ruby'
       tool 'RuboCop'

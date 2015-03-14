@@ -10,7 +10,6 @@ describe Classification do
   subject(:classification){described_class.new(task_id, modified_files)}
 
   its(:task_id){is_expected.to eq(task_id)}
-  its(:finished_at){is_expected.to be_a(Time)}
 
   context 'it classifies all files with linters into groups' do
     its(:groups) do

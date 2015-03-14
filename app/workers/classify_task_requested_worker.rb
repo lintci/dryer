@@ -1,9 +1,9 @@
-class CategorizationTaskRequestedWorker
+class ClassifyTaskRequestedWorker
   include Sidekiq::Worker
 
   sidekiq_options queue: :dryer, backtrace: true
 
   def perform(data)
-    CategorizeChanges.call(data)
+    ClassifyChanges.call(data)
   end
 end

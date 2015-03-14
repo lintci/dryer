@@ -23,4 +23,8 @@ class Task
   def inspect
     "<Task: #{id} Run #{tool} on #{language} files>"
   end
+
+  def read_attribute_for_serialization(name)
+    public_send(name)
+  end
 end

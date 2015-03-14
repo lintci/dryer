@@ -4,6 +4,7 @@ require 'rspec/rails'
 require 'rspec/its'
 require 'factory_girl_rails'
 require 'vcr'
+require 'sidekiq/testing'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each{|f| require f}
 
@@ -77,5 +78,9 @@ RSpec.configure do |config|
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
+  end
+
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
   end
 end
