@@ -50,7 +50,7 @@ private
         event: event,
         event_id: event_id,
         started_at: started_at,
-        completed_at: timestamp
+        finished_at: timestamp
       }
     )
 

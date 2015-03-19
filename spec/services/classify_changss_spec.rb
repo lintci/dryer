@@ -12,7 +12,7 @@ describe ClassifyChanges do
         end.to change{ClassifyTaskCompletedWorker.jobs.size}.by(1)
       end.to change{TaskStartedWorker.jobs.size}.by(1)
 
-      iso8601_regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/
+      iso8601_regex = /\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/
 
       started_job = TaskStartedWorker.jobs.last
       expect(started_job['args']).to match([{
@@ -90,7 +90,7 @@ describe ClassifyChanges do
           "event" => "pull_request",
           "event_id" => "bdb6ec00-5284-11e4-8e22-6dacd62599e2",
           "started_at" => iso8601_regex,
-          "completed_at" => iso8601_regex
+          "finished_at" => iso8601_regex
         }
       }])
     end
