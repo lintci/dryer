@@ -6,9 +6,9 @@ class Repository
       @head_sha = head_sha
     end
 
-    def modified_files
+    def source_files
       changed_patches.map do |patch|
-        ModifiedFile.build(repo.workdir, file_name(patch), lines(patch))
+        SourceFile.build(repo.workdir, file_name(patch), lines(patch))
       end
     end
 
@@ -31,10 +31,7 @@ class Repository
     end
 
     def lines(patch)
-      patch.hunks.map(&:lines)
-                 .flatten
-                 .select(&:addition?)
-                 .map(&:new_lineno)
+      patch.hunks.flat_map(&:lines).select(&:addition?).map(&:new_lineno)
     end
   end
 end

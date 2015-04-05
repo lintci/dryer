@@ -35,7 +35,7 @@ describe Repository do
     end
   end
 
-  describe '#modified_files' do
+  describe '#source_files' do
     let(:repo){instance_double(Rugged::Repository)}
     let(:base_sha){build(:base_sha)}
     let(:head_sha){build(:head_sha)}
@@ -44,9 +44,9 @@ describe Repository do
 
     it 'delegates to repository diff' do
       expect(Repository::Diff).to receive(:new).with(repo, base_sha, head_sha).and_return(diff)
-      expect(diff).to receive(:modified_files)
+      expect(diff).to receive(:source_files)
 
-      repository.modified_files(base_sha, head_sha)
+      repository.source_files(base_sha, head_sha)
     end
   end
 end

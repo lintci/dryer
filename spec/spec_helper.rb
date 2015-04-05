@@ -5,6 +5,8 @@ require 'rspec/its'
 require 'factory_girl_rails'
 require 'vcr'
 require 'sidekiq/testing'
+require 'stamped/rspec'
+require 'fileutils'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each{|f| require f}
 
@@ -82,5 +84,10 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Sidekiq::Worker.clear_all
+  end
+
+  config.after(:suite) do
+    FileUtils.rm_rf(Rails.root.join('tmp/lintci'))
+    FileUtils.rm_rf(Rails.root.join('tmp/repos'))
   end
 end

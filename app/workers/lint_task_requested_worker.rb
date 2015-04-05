@@ -1,9 +1,9 @@
-class ClassifyTaskRequestedWorker
+class LintTaskRequestedWorker
   include Sidekiq::Worker
 
   sidekiq_options queue: :dryer
 
   def perform(data)
-    ClassifyFiles.call(data)
+    LintFiles.call(data)
   end
 end

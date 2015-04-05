@@ -33,8 +33,12 @@ class Repository
     Repository::Diff.new(repo, base_sha, head_sha)
   end
 
-  def modified_files(base_sha, head_sha)
-    diff(base_sha, head_sha).modified_files
+  def source_files(base_sha, head_sha)
+    diff(base_sha, head_sha).source_files
+  end
+
+  def local_files(files)
+    files
   end
 
   def head_sha

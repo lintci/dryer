@@ -9,6 +9,6 @@ FactoryGirl.define do
     task
 
     skip_create
-    initialize_with{File.join(repos_dir, task.slug)}
+    initialize_with{File.join(repos_dir, task.slug) + '/'}
   end
 end

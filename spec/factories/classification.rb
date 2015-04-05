@@ -1,19 +1,19 @@
 FactoryGirl.define do
   factory :classification do
     task_id 1
-    modified_files []
+    source_files []
 
     skip_create
     initialize_with do
-      Classification.new(task_id, modified_files)
+      Classification.new(task_id, source_files)
     end
 
-    trait :with_modified_files do
-      modified_files do
+    trait :with_source_files do
+      source_files do
         [
-          build(:coffeescript_modified_file),
-          build(:javascript_modified_file),
-          build(:ruby_modified_file)
+          build(:coffeescript_source_file),
+          build(:javascript_source_file),
+          build(:ruby_source_file)
         ]
       end
     end

@@ -7,19 +7,19 @@ describe Repository::Diff do
 
   after(:each){FileUtils.rm_r(workdir, force: true)}
 
-  describe '#modified_files' do
+  describe '#source_files' do
     it 'produces a list of modified files' do
-      expect(diff.modified_files).to eq([
-        build(:java_modified_file, name: 'Good.java', lines: (1..6).to_a),
-        build(:coffeescript_modified_file),
-        build(:css_modified_file),
-        build(:go_modified_file),
-        build(:java_modified_file),
-        build(:javascript_modified_file),
-        build(:json_modified_file),
-        build(:ruby_modified_file),
-        build(:scss_modified_file),
-        build(:text_modified_file)
+      expect(diff.source_files).to eq([
+        build(:java_source_file, name: 'Good.java', modified_lines: (1..6).to_a, size: 80),
+        build(:coffeescript_source_file),
+        build(:css_source_file),
+        build(:go_source_file),
+        build(:java_source_file),
+        build(:javascript_source_file),
+        build(:json_source_file),
+        build(:ruby_source_file),
+        build(:scss_source_file),
+        build(:text_source_file)
       ])
     end
   end

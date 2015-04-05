@@ -21,7 +21,7 @@ class Task
   end
 
   def inspect
-    "<Task: #{id} Run #{tool} on #{language} files>"
+    "<#{self.class.name}: #{id} Run #{tool} on #{language} files>"
   end
 
   def read_attribute_for_serialization(name)

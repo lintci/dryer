@@ -1,38 +1,58 @@
 require 'spec_helper'
 
 describe ClassificationSerializer do
-  let(:classification){build(:classification, :with_modified_files)}
+  let(:classification){build(:classification, :with_source_files)}
   subject(:serializer){described_class.new(classification)}
 
   describe 'as_json' do
     it 'returns the expected data' do
-      expect(serializer.as_json).to eq({
+      expect(serializer.as_json).to eq(
         classification: {
           task_id: 1,
-          groups: [{
-            linter: 'CoffeeLint',
-            language: 'CoffeeScript',
-            modified_files: [{
+          source_files: [
+            {
               name: 'bad.coffee',
-              lines: [1]
-            }]
-          }, {
-            linter: 'JSHint',
-            language: 'JavaScript',
-            modified_files: [{
+              language: 'CoffeeScript',
+              linters: ['CoffeeLint'],
+              modified_lines: [1],
+              source_type: 'CoffeeScript',
+              size: 11,
+              extension: '.coffee',
+              binary: false,
+              generated: false,
+              vendored: false,
+              documentation: false,
+              image: false
+            }, {
               name: 'bad.js',
-              lines: [1, 2, 3]
-            }]
-          }, {
-            linter: 'RuboCop',
-            language: 'Ruby',
-            modified_files: [{
+              language: 'JavaScript',
+              linters: ['JSHint'],
+              modified_lines: [1, 2, 3],
+              source_type: 'JavaScript',
+              size: 40,
+              extension: '.js',
+              binary: false,
+              generated: false,
+              vendored: false,
+              documentation: false,
+              image: false
+            }, {
               name: 'bad.rb',
-              lines: [1, 2, 3, 4]
-            }]
-          }]
+              language: 'Ruby',
+              linters: ['RuboCop'],
+              modified_lines: [1, 2, 3, 4],
+              source_type: 'Ruby',
+              size: 31,
+              extension: '.rb',
+              binary: false,
+              generated: false,
+              vendored: false,
+              documentation: false,
+              image: false
+            }
+          ]
         }
-      })
+      )
     end
   end
 end

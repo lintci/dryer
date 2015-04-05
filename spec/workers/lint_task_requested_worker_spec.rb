@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe ClassifyTaskRequestedWorker do
+describe LintTaskRequestedWorker do
   describe '#peform' do
     subject(:worker){described_class.new}
     let(:event){{}}
 
-    it 'delegates to the ClassifyFiles service' do
-      expect(ClassifyFiles).to receive(:call).with(event)
+    it 'delegates to the LintFiles service' do
+      expect(LintFiles).to receive(:call).with(event)
 
       worker.perform(event)
     end

@@ -1,0 +1,2 @@
+class LintTask < Task
+end

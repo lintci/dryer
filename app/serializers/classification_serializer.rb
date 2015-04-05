@@ -1,21 +1,17 @@
 class ClassificationSerializer < ActiveModel::Serializer
-  class ModifiedFileSerializer < ActiveModel::Serializer
-    attributes :name, :lines
-  end
-
-  class GroupSerializer < ActiveModel::Serializer
-    has_many :modified_files, serializer: ModifiedFileSerializer
-    attributes :linter, :language
-
-    def linter
-      object.linter.name
-    end
+  class SourceFileSerializer < ActiveModel::Serializer
+    attributes :name, :language, :linters, :modified_lines, :source_type, :size, :extension,
+               :binary, :generated, :vendored, :documentation, :image
 
     def language
-      object.language.name
+      object.language.try(:name)
+    end
+
+    def linters
+      object.linters.map(&:name)
     end
   end
 
-  has_many :groups, serializer: GroupSerializer
+  has_many :source_files, serializer: SourceFileSerializer
   attributes :task_id
 end
