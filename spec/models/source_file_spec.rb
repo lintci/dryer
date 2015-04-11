@@ -21,7 +21,7 @@ describe SourceFile do
   its(:to_s){is_expected.to eq('bad.rb')}
   its(:inspect) do
     is_expected.to eq(
-      '<SourceFile: bad.rb type=Ruby size=31 Bytes modified_lines=[1, 2, 3, 4]'\
+      '<SourceFile: bad.rb sha=cbc7b6 type=Ruby size=31 Bytes modified_lines=[1, 2, 3, 4]'\
       ' binary=false generated=false vendored=false documentation=false image=false>'
     )
   end

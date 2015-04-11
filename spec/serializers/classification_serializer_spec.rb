@@ -12,6 +12,7 @@ describe ClassificationSerializer do
           source_files: [
             {
               name: 'bad.coffee',
+              sha: 'b045a0f5309273ce68e7cb52fc020769cef4a874',
               language: 'CoffeeScript',
               linters: ['CoffeeLint'],
               modified_lines: [1],
@@ -25,6 +26,7 @@ describe ClassificationSerializer do
               image: false
             }, {
               name: 'bad.js',
+              sha: 'c6e2cbd471ae9be3ccd9657c4a28161fdf0b5454',
               language: 'JavaScript',
               linters: ['JSHint'],
               modified_lines: [1, 2, 3],
@@ -38,6 +40,7 @@ describe ClassificationSerializer do
               image: false
             }, {
               name: 'bad.rb',
+              sha: 'cbc7b6a779837b93563e69511d44cb35051ed712',
               language: 'Ruby',
               linters: ['RuboCop'],
               modified_lines: [1, 2, 3, 4],

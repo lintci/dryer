@@ -4,13 +4,13 @@ require 'lint_trap'
 class SourceFile
   include ActiveModel::Model
 
-  ATTRIBUTES = :name, :workdir, :modified_lines, :language, :size, :extension,
+  ATTRIBUTES = :name, :sha, :workdir, :modified_lines, :language, :size, :extension,
                :binary, :generated, :vendored, :documentation, :image
 
   attr_accessor(*ATTRIBUTES)
 
   class << self
-    def build(workdir, name, lines)
+    def build(workdir, name, sha, lines)
       path = File.join(workdir, name)
       language = LintTrap::Language.detect(path)
       blob = Linguist::FileBlob.new(path)
@@ -18,6 +18,7 @@ class SourceFile
       new(
         workdir: workdir,
         name: name,
+        sha: sha,
         modified_lines: lines,
         language: language,
         extension: blob.extension,
@@ -62,7 +63,7 @@ class SourceFile
   end
 
   def inspect
-    "<SourceFile: #{name} type=#{source_type} size=#{formatted_size} modified_lines=#{modified_lines.inspect}"\
+    "<SourceFile: #{name} sha=#{sha[0...6]} type=#{source_type} size=#{formatted_size} modified_lines=#{modified_lines.inspect}"\
     " binary=#{binary} generated=#{generated} vendored=#{vendored} documentation=#{documentation} image=#{image}>"
   end
 

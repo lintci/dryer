@@ -1,6 +1,6 @@
 class ClassificationSerializer < ActiveModel::Serializer
   class SourceFileSerializer < ActiveModel::Serializer
-    attributes :name, :language, :linters, :modified_lines, :source_type, :size, :extension,
+    attributes :name, :sha, :language, :linters, :modified_lines, :source_type, :size, :extension,
                :binary, :generated, :vendored, :documentation, :image
 
     def language

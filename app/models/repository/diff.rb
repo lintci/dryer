@@ -8,7 +8,7 @@ class Repository
 
     def source_files
       changed_patches.map do |patch|
-        SourceFile.build(repo.workdir, file_name(patch), lines(patch))
+        SourceFile.build(repo.workdir, file_name(patch), sha(patch), lines(patch))
       end
     end
 
@@ -28,6 +28,10 @@ class Repository
 
     def file_name(patch)
       patch.delta.new_file[:path]
+    end
+
+    def sha(patch)
+      patch.delta.new_file[:oid]
     end
 
     def lines(patch)

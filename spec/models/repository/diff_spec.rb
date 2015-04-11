@@ -10,7 +10,8 @@ describe Repository::Diff do
   describe '#source_files' do
     it 'produces a list of modified files' do
       expect(diff.source_files).to eq([
-        build(:java_source_file, name: 'Good.java', modified_lines: (1..6).to_a, size: 80),
+        build(:java_source_file, name: 'Good.java', modified_lines: (1..6).to_a,
+                                 size: 80, sha: 'ff0d65aad488c95d21821be4f258cb139685ba44'),
         build(:coffeescript_source_file),
         build(:css_source_file),
         build(:go_source_file),
