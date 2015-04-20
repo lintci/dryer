@@ -2,15 +2,26 @@ require 'lint_trap'
 
 # Tracks modified file information like line changes and file language
 class SourceFile
-  include ActiveModel::Model
+  include Virtus.value_object
 
-  ATTRIBUTES = :name, :sha, :workdir, :modified_lines, :language, :size, :extension,
-               :binary, :generated, :vendored, :documentation, :image
-
-  attr_accessor(*ATTRIBUTES)
+  values do
+    attribute :name, String
+    attribute :sha, String
+    attribute :workdir, String
+    attribute :modified_lines, Array[Integer]
+    attribute :language, LintTrap::Language::Base
+    attribute :size, Integer
+    attribute :extension, String
+    attribute :binary, Boolean
+    attribute :generated, Boolean
+    attribute :vendored, Boolean
+    attribute :documentation, Boolean
+    attribute :image, Boolean
+    attribute :violations, Array[Violation]
+  end
 
   class << self
-    def build(workdir, name, sha, lines)
+    def build(workdir, name, sha, lines, violations = [])
       path = File.join(workdir, name)
       language = LintTrap::Language.detect(path)
       blob = Linguist::FileBlob.new(path)
@@ -27,7 +38,8 @@ class SourceFile
         generated: blob.generated? || false,
         vendored: blob.vendored? || false,
         documentation: blob.documentation? || false,
-        image: blob.image? || false
+        image: blob.image? || false,
+        violations: violations
       )
     end
   end
@@ -52,10 +64,6 @@ class SourceFile
 
   def path
     File.join(workdir, name)
-  end
-
-  def ==(other)
-    ATTRIBUTES.all?{|attribue| send(attribue) == other.send(attribue)}
   end
 
   def to_s

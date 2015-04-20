@@ -1,44 +1,49 @@
 # Base class for linters
 class Linter
-  def lint(files, config_file)
-    code = permpress_command.run(files, config_file) do |io|
-      yield_violations_by_file(io, &Proc.new)
+  def initialize(name, workdir, source_files)
+    @linter = LintTrap::Linter.find(name)
+    @containter = LintTrap::Container::Docker.new('lintci/lint_trap', workdir)
+    @source_files = source_files
+  end
+
+  def lint(options)
+    started_at = Time.now
+    each_linted_file(options) do |source_file|
+      finished_at = Time.now
+
+      yield source_file, started_at, finished_at
+
+      started_at = finished_at
     end
-
-    success?(code)
   end
 
-  def command_name
-    raise NotImplementedError, 'Linters must specify their command name.'
-  end
+protected
+
+  attr_reader :linter, :container, :source_files
 
 private
 
-  def yield_violations_by_file(io)
-    file = nil
+  def each_linted_file(options)
+    each_violation = linter.to_enum(:lint, files.keys, container, options)
+    each_file_violations = each_violation.chunk{|violation| violation[:file]}
 
-    LintTrap.parse(command_name, io) do |violation|
-      if linting_new_file?(file, violation)
-        yield file unless file.nil?
-
-        file = LintedFile.new(violation[:file])
-      end
-
-      file.violations << violation
+    each_file_violations.each do |file, violations|
+      yield files[file].with(violations: violations)
     end
-
-    yield file unless file.nil?
   end
 
-  def linting_new_file?(file, violation)
-    file.nil? || violation[:file] != file.name
-  end
-
-  def success?(code)
-    code && code.zero?
-  end
-
-  def permpress_command
-    PermpressCommand.new(self)
+  def files
+    @files ||= source_files.each_with_object({}) do |file, files|
+      files[file.name] = file
+    end
   end
 end
+
+# ruby:
+#   rubocop:
+#     exclude:
+#       - **/*_spec.rb
+#     include:
+#       - Rakefile
+#       - Gemfile
+#     config: .rubocop.yml

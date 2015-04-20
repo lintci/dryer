@@ -1,29 +1,25 @@
 # Wraps information about linting violations
 class Violation
+  include Virtus.value_object
+
   ERROR = 'error'
   WARNING = 'warning'
 
-  attr_reader :line, :column, :length, :rule, :severity, :message
-  alias_method :to_comment, :message
-
-  # rubocop:disable Metrics/ParameterLists
-  def initialize(line: 0, column: 0, length: 0, rule: nil, severity: ERROR, message: nil, **)
-    @line = line
-    @column = column
-    @length = length
-    @rule = rule
-    @severity = severity
-    @message = message
+  values do
+    attribute :line, Integer
+    attribute :column, Integer
+    attribute :length, Integer
+    attribute :rule, String
+    attribute :severity, String
+    attribute :message, String
   end
-  # rubocop:enable Metrics/ParameterLists
 
-  def ==(other)
-    line == other.line &&
-      column == other.column &&
-      length == other.length &&
-      rule == other.rule &&
-      severity == other.severity &&
-      message == other.message
+  def initialize(attrs = {})
+    super
+    self.line ||= 0
+    self.column ||= 0
+    self.length ||= 0
+    self.severity ||= ERROR
   end
 
   def inspect

@@ -25,6 +25,8 @@ class Repository
     end
   end
 
+  delegate :workdir, to: :repo
+
   def initialize(repo)
     @repo = repo
   end
@@ -35,10 +37,6 @@ class Repository
 
   def source_files(base_sha, head_sha)
     diff(base_sha, head_sha).source_files
-  end
-
-  def local_files(files)
-    files
   end
 
   def head_sha

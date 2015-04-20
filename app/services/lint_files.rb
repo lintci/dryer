@@ -3,16 +3,14 @@ require 'command_service'
 class LintFiles < TaskService
   def initialize(data)
     @task = LintTask.new(data['lint_task'])
-    @container = LintTrap::Container::Docker.new('lintci/lint_trap')
-    @linter =  LintTrap::Linter.find(task.tool)
   end
 
   def call
     start_task
 
     clone_repository do |repo|
-      linting = lint(repo) do |file_lint|
-        file_linted(file_lint)
+      linting = lint(repo) do |source_file, started_at, finished_at|
+        file_linted(source_file, started_at, finished_at)
       end
 
       finish_task(linting)
@@ -21,16 +19,29 @@ class LintFiles < TaskService
 
 protected
 
-  attr_reader :container, :linter
+  attr_reader :tool, :container, :linter
 
 private
 
   def lint(repo)
-    linter.run(repo.files)
+    linter = Linter.new(task.tool, repo.workdir, task.source_files)
+    linter.run({}) do |source_file, started_at, finished_at|
+      yield source_file, started_at, finished_at
+    end
   end
 
-  def file_linted(file_lint)
+  def file_linted(source_file, started_at, finished_at)
+    serializer = SourceFileSerializer.new(
+      source_file,
+      meta: {
+        event: event,
+        event_id: event_id,
+        started_at: started_at,
+        finished_at: finished_at
+      }
+    )
 
+    FileLintedWorker.perform_async(serializer.as_json)
   end
 
   def finish_task(linting)

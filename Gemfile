@@ -17,6 +17,7 @@ gem 'octokit'
 gem 'lint_trap'
 gem 'active_model_serializers', '~> 0.8.3'
 gem 'stamped'
+gem 'virtus'
 
 gem 'pry-rails'
 gem 'pry-byebug'
