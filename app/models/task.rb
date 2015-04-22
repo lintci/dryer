@@ -1,20 +1,19 @@
 require 'pathname'
 
 class Task
-  attr_reader :id, :type, :status, :language, :tool
+  include Virtus.value_object
+
+  values do
+    attribute :id, Integer
+    attribute :type, String
+    attribute :status, String
+    attribute :language, String
+    attribute :tool, String
+    attribute :build, Build
+  end
 
   delegate :pull_request, to: :build
   delegate :head_sha, :base_sha, :clone_url, to: :pull_request
-
-  def initialize(data)
-    @id, @type, @status, @language, @tool, @build = data.values_at(
-      'id', 'type', 'status', 'language', 'tool', 'build'
-    )
-  end
-
-  def build
-    Build.new(@build)
-  end
 
   def slug
     "#{build.slug}/#{id}"

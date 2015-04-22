@@ -26,6 +26,40 @@ describe SourceFile do
     )
   end
 
+  describe '#source_type' do
+    context 'when source file has a language' do
+      subject(:file){build(:ruby_source_file)}
+
+      it 'retuns the language' do
+        expect(file.source_type).to eq('Ruby')
+      end
+    end
+
+    context 'when source file is an image' do
+      subject(:file){build(:png_source_file)}
+
+      it 'returns the image type' do
+        expect(file.source_type).to eq('PNG')
+      end
+    end
+
+    context 'when source file is documentation' do
+      subject(:file){build(:license_source_file)}
+
+      it 'returns Documentation' do
+        expect(file.source_type).to eq('Documentation')
+      end
+    end
+
+    context 'when source file is an image' do
+      subject(:file){build(:pdf_source_file)}
+
+      it 'returns Binary' do
+        expect(file.source_type).to eq('Binary')
+      end
+    end
+  end
+
   describe '#==' do
     context 'with equivalent modified files' do
       let(:other_file){build(:source_file)}

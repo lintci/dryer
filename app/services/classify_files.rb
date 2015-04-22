@@ -1,5 +1,3 @@
-require 'command_service'
-
 # Lints a pull request
 class ClassifyFiles < TaskService
   def initialize(data)

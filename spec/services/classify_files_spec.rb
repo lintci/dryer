@@ -3,12 +3,12 @@ require 'spec_helper'
 describe ClassifyFiles do
   describe '#call' do
     let(:event){build(:classify_task_requested_event)}
-    subject(:service){described_class.new(event)}
+    subject(:service){described_class}
 
     it 'sends task started and completed events' do
       expect do
         expect do
-          service.call
+          service.call(event)
         end.to change{ClassifyTaskCompletedWorker.jobs.size}.by(1)
       end.to change{TaskStartedWorker.jobs.size}.by(1)
 

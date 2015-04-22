@@ -1,15 +1,15 @@
 # Wraps data about a pull request
 class PullRequest
-  attr_reader :id, :base_sha, :head_sha, :branch, :clone_url, :owner, :repo
+  include Virtus.value_object
 
-  def initialize(data)
-    @id, @base_sha, @head_sha, @branch, @clone_url, @owner, @repo = data.values_at(
-      'id', 'base_sha', 'head_sha', 'branch', 'clone_url', 'owner', 'repo'
-    )
-  end
-
-  def ==(other)
-    id == other.id && owner = other.owner && repo == other.repo
+  values do
+    attribute :id, Integer
+    attribute :base_sha, String
+    attribute :head_sha, String
+    attribute :branch, String
+    attribute :clone_url, String
+    attribute :owner, String
+    attribute :repo, String
   end
 
   def slug

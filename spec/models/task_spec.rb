@@ -9,4 +9,5 @@ describe Task do
   its(:language){is_expected.to eq('All')}
   its(:tool){is_expected.to eq('Linguist')}
   its(:build){is_expected.to be_a(Build)}
+  its(:inspect){is_expected.to eq('<Task: 1 Run Linguist on All files>')}
 end

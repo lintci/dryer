@@ -11,10 +11,6 @@ class TaskService
     @started_at = Time.stamp
   end
 
-  def call
-    start_task
-  end
-
 protected
 
   attr_reader :event, :event_id, :task, :started_at

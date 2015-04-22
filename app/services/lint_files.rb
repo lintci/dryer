@@ -1,5 +1,3 @@
-require 'command_service'
-
 class LintFiles < TaskService
   def initialize(data)
     @task = LintTask.new(data['lint_task'])

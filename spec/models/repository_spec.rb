@@ -49,4 +49,13 @@ describe Repository do
       repository.source_files(base_sha, head_sha)
     end
   end
+
+  describe '#inspect' do
+    let(:repo){instance_double(Rugged::Repository, workdir: '/right_here')}
+    subject(:repository){Repository.new(repo)}
+
+    it 'formats repository display' do
+      expect(repository.inspect).to eq("<Repository: /right_here>")
+    end
+  end
 end
