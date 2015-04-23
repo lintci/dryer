@@ -1,5 +1,6 @@
 require 'pathname'
 
+# An isolated operation to perform on a set of files
 class Task
   include Virtus.value_object
 
@@ -10,6 +11,7 @@ class Task
     attribute :language, String
     attribute :tool, String
     attribute :build, Build
+    attribute :source_files, Array[SourceFile], default: []
   end
 
   delegate :pull_request, to: :build

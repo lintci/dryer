@@ -25,4 +25,8 @@ class Violation
   def inspect
     "<Violation #{line}:#{column}:#{length} #{rule}:#{severity}:#{message}>"
   end
+
+  def read_attribute_for_serialization(name)
+    public_send(name)
+  end
 end

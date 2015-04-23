@@ -7,14 +7,17 @@ class Linter
   end
 
   def lint(options)
-    started_at = Time.now
+    started_at, clean = Time.now, true
+
     each_linted_file(options) do |source_file|
-      finished_at = Time.now
+      finished_at, clean = Time.now, false
 
       yield source_file, started_at, finished_at
 
       started_at = finished_at
     end
+
+    clean
   end
 
 protected

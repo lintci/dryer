@@ -20,7 +20,7 @@ class ClassifyFiles < TaskService
 private
 
   def classify(files)
-    Classification.new(task.id, files)
+    Classification.new(task_id: task.id, source_files: files)
   end
 
   def complete_task(classification)

@@ -4,9 +4,7 @@ FactoryGirl.define do
     source_files []
 
     skip_create
-    initialize_with do
-      Classification.new(task_id, source_files)
-    end
+    initialize_with{new(attributes)}
 
     trait :with_source_files do
       source_files do

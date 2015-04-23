@@ -23,7 +23,8 @@ describe ClassificationSerializer do
               generated: false,
               vendored: false,
               documentation: false,
-              image: false
+              image: false,
+              violations: []
             }, {
               name: 'bad.js',
               sha: 'c6e2cbd471ae9be3ccd9657c4a28161fdf0b5454',
@@ -37,7 +38,8 @@ describe ClassificationSerializer do
               generated: false,
               vendored: false,
               documentation: false,
-              image: false
+              image: false,
+              violations: []
             }, {
               name: 'bad.rb',
               sha: 'cbc7b6a779837b93563e69511d44cb35051ed712',
@@ -51,7 +53,8 @@ describe ClassificationSerializer do
               generated: false,
               vendored: false,
               documentation: false,
-              image: false
+              image: false,
+              violations: []
             }
           ]
         }

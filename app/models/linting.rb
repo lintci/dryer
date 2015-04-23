@@ -1,10 +1,10 @@
-# A set of files and their inspected attributes
-class Classification
+# The result of linting a set of files
+class Linting
   include Virtus.value_object
 
   values do
     attribute :task_id, Integer
-    attribute :source_files, Array[SourceFile]
+    attribute :clean, Boolean
   end
 
   def read_attribute_for_serialization(name)

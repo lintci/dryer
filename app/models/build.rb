@@ -1,3 +1,4 @@
+# A set of tasks to be perfomed
 class Build
   include Virtus.value_object
 

@@ -1,5 +1,8 @@
+# Takes a lint task, executing the specified linter on all the files for that task. Notifies
+# laundromat of the results.
 class LintFiles < TaskService
   def initialize(data)
+    super(data)
     @task = LintTask.new(data['lint_task'])
   end
 
@@ -7,23 +10,19 @@ class LintFiles < TaskService
     start_task
 
     clone_repository do |repo|
-      linting = lint(repo) do |source_file, started_at, finished_at|
+      clean = lint(repo) do |source_file, started_at, finished_at|
         file_linted(source_file, started_at, finished_at)
       end
 
-      finish_task(linting)
+      finish_task(clean)
     end
   end
-
-protected
-
-  attr_reader :tool, :container, :linter
 
 private
 
   def lint(repo)
     linter = Linter.new(task.tool, repo.workdir, task.source_files)
-    linter.run({}) do |source_file, started_at, finished_at|
+    linter.lint({}) do |source_file, started_at, finished_at|
       yield source_file, started_at, finished_at
     end
   end
@@ -34,17 +33,17 @@ private
       meta: {
         event: event,
         event_id: event_id,
-        started_at: started_at,
-        finished_at: finished_at
+        started_at: started_at.stamp,
+        finished_at: finished_at.stamp
       }
     )
 
     FileLintedWorker.perform_async(serializer.as_json)
   end
 
-  def finish_task(linting)
+  def finish_task(clean)
     serializer = LintingSerializer.new(
-      linting,
+      linting(clean),
       meta: {
         event: event,
         event_id: event_id,
@@ -54,5 +53,9 @@ private
     )
 
     LintTaskCompletedWorker.perform_async(serializer.as_json)
+  end
+
+  def linting(clean)
+    Linting.new(task_id: task.id, clean: clean)
   end
 end
