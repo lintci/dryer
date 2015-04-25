@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe ClassificationSerializer do
-  let(:classification){build(:classification, :with_source_files)}
-  subject(:serializer){described_class.new(classification)}
+describe AnalysisSerializer do
+  let(:analysis){build(:analysis, :with_source_files)}
+  subject(:serializer){described_class.new(analysis)}
 
   describe 'as_json' do
     it 'returns the expected data' do
       expect(serializer.as_json).to eq(
-        classification: {
+        analysis: {
           task_id: 1,
           source_files: [
             {

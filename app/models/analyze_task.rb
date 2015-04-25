@@ -1,0 +1,2 @@
+class AnalyzeTask < Task
+end

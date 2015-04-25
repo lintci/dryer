@@ -1,5 +1,5 @@
 # A set of files and their inspected attributes
-class Classification
+class Analysis
   include Virtus.value_object
 
   values do

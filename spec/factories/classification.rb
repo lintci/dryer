@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :classification do
+  factory :analysis do
     task_id 1
     source_files []
 

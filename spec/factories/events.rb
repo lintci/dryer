@@ -1,9 +1,9 @@
 FactoryGirl.define do
-  factory :event, aliases: [:classify_task_requested_event], class: Hash do
-    type 'classify_task'
+  factory :event, aliases: [:analyze_task_requested_event], class: Hash do
+    type 'analyze_task'
     event 'pull_request'
     event_id 'bdb6ec00-5284-11e4-8e22-6dacd62599e2'
-    data{attributes_for(:classify_task).deep_stringify_keys}
+    data{attributes_for(:analyze_task).deep_stringify_keys}
 
     skip_create
     initialize_with do

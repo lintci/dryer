@@ -1,7 +1,7 @@
 FactoryGirl.define do
-  factory :task, aliases: [:classify_task] do
+  factory :task, aliases: [:analyze_task] do
     id 1
-    type 'ClassifyTask'
+    type 'AnalyzeTask'
     status 'queued'
     language 'All'
     tool 'Linguist'

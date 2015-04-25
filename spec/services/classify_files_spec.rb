@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe ClassifyFiles do
+describe AnalyzeFiles do
   describe '#call' do
-    let(:event){build(:classify_task_requested_event)}
+    let(:event){build(:analyze_task_requested_event)}
     subject(:service){described_class}
 
     it 'sends task started and completed events' do
       expect do
         expect do
           service.call(event)
-        end.to change{ClassifyTaskCompletedWorker.jobs.size}.by(1)
+        end.to change{AnalyzeTaskCompletedWorker.jobs.size}.by(1)
       end.to change{TaskStartedWorker.jobs.size}.by(1)
 
       started_job = TaskStartedWorker.jobs.last
@@ -17,7 +17,7 @@ describe ClassifyFiles do
         {
           'task' => {
             'id' => 1,
-            'type' => 'ClassifyTask',
+            'type' => 'AnalyzeTask',
             'language' => 'All',
             'tool' => 'Linguist'
           },
@@ -29,10 +29,10 @@ describe ClassifyFiles do
         }
       ])
 
-      completed_job = ClassifyTaskCompletedWorker.jobs.last
+      completed_job = AnalyzeTaskCompletedWorker.jobs.last
       expect(completed_job['args']).to match([
         {
-          'classification' => {
+          'analysis' => {
             'task_id' => 1,
             'source_files' => [{
               'name' => 'Good.java',
