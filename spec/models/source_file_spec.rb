@@ -14,10 +14,20 @@ describe SourceFile do
   end
 
   its(:name){is_expected.to eq(name)}
+  its(:sha){is_expected.to eq('cbc7b6a779837b93563e69511d44cb35051ed712')}
+  its(:workdir){is_expected.to eq(workdir)}
   its(:modified_lines){is_expected.to eq((1..4).to_a)}
   its(:path){is_expected.to eq(File.join(workdir, name))}
   its(:language){is_expected.to eq(LintTrap::Language::Ruby.new)}
   its(:linters){is_expected.to eq([LintTrap::Linter::RuboCop.new])}
+  its(:size){is_expected.to eq(31)}
+  its(:extension){is_expected.to eq('.rb')}
+  it{is_expected.to_not be_binary}
+  it{is_expected.to_not be_generated}
+  it{is_expected.to_not be_vendored}
+  it{is_expected.to_not be_documentation}
+  it{is_expected.to_not be_image}
+  its(:violations){is_expected.to eq([])}
   its(:to_s){is_expected.to eq('bad.rb')}
   its(:inspect) do
     is_expected.to eq(
@@ -56,24 +66,6 @@ describe SourceFile do
 
       it 'returns Binary' do
         expect(file.source_type).to eq('Binary')
-      end
-    end
-  end
-
-  describe '#==' do
-    context 'with equivalent modified files' do
-      let(:other_file){build(:source_file)}
-
-      it 'returns true' do
-        expect(file).to eq(other_file)
-      end
-    end
-
-    context 'with inequivalent modified files' do
-      let(:other_file){build(:source_file, name: 'good.rb')}
-
-      it 'returns false' do
-        expect(file).to_not eq(other_file)
       end
     end
   end

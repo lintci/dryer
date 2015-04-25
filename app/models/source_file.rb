@@ -8,7 +8,7 @@ class SourceFile
     attribute :name, String
     attribute :sha, String
     attribute :workdir, String
-    attribute :modified_lines, Array[Integer]
+    attribute :modified_lines, Array[Integer], default: []
     attribute :language, LintTrap::Language::Base
     attribute :size, Integer
     attribute :extension, String
@@ -17,7 +17,7 @@ class SourceFile
     attribute :vendored, Boolean
     attribute :documentation, Boolean
     attribute :image, Boolean
-    attribute :violations, Array[Violation]
+    attribute :violations, Array[Violation], default: []
   end
 
   class << self
