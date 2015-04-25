@@ -71,8 +71,16 @@ class SourceFile
   end
 
   def inspect
-    "<SourceFile: #{name} sha=#{sha[0...6]} type=#{source_type} size=#{formatted_size} modified_lines=#{modified_lines.inspect}"\
-    " binary=#{binary} generated=#{generated} vendored=#{vendored} documentation=#{documentation} image=#{image}>"
+    "<SourceFile: #{name}"\
+    " sha=#{sha[0...6]}"\
+    " type=#{source_type}"\
+    " size=#{formatted_size}"\
+    " modified_lines=#{modified_lines.inspect}"\
+    " binary=#{binary}"\
+    " generated=#{generated}"\
+    " vendored=#{vendored}"\
+    " documentation=#{documentation}"\
+    " image=#{image}>"
   end
 
   def read_attribute_for_serialization(name)

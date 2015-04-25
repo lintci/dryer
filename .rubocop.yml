@@ -9,6 +9,7 @@ AllCops:
   Exclude:
     - 'vendor/**'
     - 'spec/fixtures/**'
+    - 'bin/**'
   RunRailsCops: true
 
 # Indent private/protected/public as deep as method definitions

@@ -1,3 +1,4 @@
+# Sent from laundromat. Informs dryer to analyze files.
 class AnalyzeTaskRequestedWorker
   include Sidekiq::Worker
 

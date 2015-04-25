@@ -1,4 +1,5 @@
 class Repository
+  # Produces the source files that have changed between base and head
   class Diff
     def initialize(repo, base_sha, head_sha)
       @repo = repo

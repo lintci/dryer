@@ -1,3 +1,4 @@
+# Sent from laundromat. Informs dryer to lint files.
 class LintTaskRequestedWorker
   include Sidekiq::Worker
 
