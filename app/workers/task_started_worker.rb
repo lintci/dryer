@@ -3,6 +3,6 @@ class TaskStartedWorker
 
   sidekiq_options queue: :laundromat
 
-  def perform(data)
+  def perform(_data)
   end
 end

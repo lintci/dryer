@@ -55,7 +55,7 @@ describe Repository do
     subject(:repository){Repository.new(repo)}
 
     it 'formats repository display' do
-      expect(repository.inspect).to eq("<Repository: /right_here>")
+      expect(repository.inspect).to eq('<Repository: /right_here>')
     end
   end
 end
