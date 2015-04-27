@@ -43,6 +43,7 @@ describe LintFiles do
       expect(first_linted_file_job['args']).to match([
         {
           'source_file' => {
+            'id' => 1,
             'name' => 'bad1.rb',
             'sha' => 'cbc7b6a779837b93563e69511d44cb35051ed712',
             'language' => 'Ruby',
@@ -70,6 +71,7 @@ describe LintFiles do
           'meta' => {
             'event' => 'pull_request',
             'event_id' => 'bdb6ec00-5284-11e4-8e22-6dacd62599e2',
+            'task_id' => 1,
             'started_at' => be_timestamp,
             'finished_at' => be_timestamp
           }
@@ -80,6 +82,7 @@ describe LintFiles do
       expect(second_linted_file_job['args']).to match([
         {
           'source_file' => {
+            'id' => 2,
             'name' => 'bad2.rb',
             'sha' => 'cbc7b6a779837b93563e69511d44cb35051ed712',
             'language' => 'Ruby',
@@ -107,6 +110,7 @@ describe LintFiles do
           'meta' => {
             'event' => 'pull_request',
             'event_id' => 'bdb6ec00-5284-11e4-8e22-6dacd62599e2',
+            'task_id' => 1,
             'started_at' => be_timestamp,
             'finished_at' => be_timestamp
           }

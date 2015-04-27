@@ -16,8 +16,8 @@ FactoryGirl.define do
       tool 'RuboCop'
       source_files do
         [
-          attributes_for(:source_file, name: 'bad1.rb').deep_stringify_keys,
-          attributes_for(:source_file, name: 'bad2.rb').deep_stringify_keys
+          attributes_for(:source_file, id: 1, name: 'bad1.rb').deep_stringify_keys,
+          attributes_for(:source_file, id: 2, name: 'bad2.rb').deep_stringify_keys
         ]
       end
     end

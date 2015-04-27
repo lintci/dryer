@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :source_file, aliases: [:ruby_source_file] do
     workdir
+    id nil
     name 'bad.rb'
     sha 'cbc7b6a779837b93563e69511d44cb35051ed712'
     modified_lines((1..4).to_a)

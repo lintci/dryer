@@ -33,6 +33,7 @@ private
       meta: {
         event: event,
         event_id: event_id,
+        task_id: task.id,
         started_at: started_at.stamp,
         finished_at: finished_at.stamp
       }
