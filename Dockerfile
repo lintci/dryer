@@ -43,17 +43,14 @@ RUN apt-get update \
      --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
-###### Docker
-
-
 ###### Ruby
 RUN apt-get update \
  && apt-get install -y \
     procps \
  && rm -rf /var/lib/apt/lists/*
 
-ENV RUBY_MAJOR 2.2 %>
-ENV RUBY_VERSION <%= ruby_version %>
+ENV RUBY_MAJOR 2.2
+ENV RUBY_VERSION 2.2.2
 
 # some of ruby's build scripts are written in ruby
 # we purge this later to make sure our final image uses what we just built
@@ -91,12 +88,16 @@ ENV BUNDLE_APP_CONFIG $GEM_HOME
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
+###### Docker
+RUN curl -sSL https://get.docker.com/ | sh \
+ && rm -rf /var/lib/apt/lists/*
+
 ###### Create user
-RUN mkdir -p <%= homedir %> \
- && groupadd -r <%= group %> -g 777 \
- && useradd -u 666 -r -g <%= group %> -d <%= homedir %> -s /sbin/nologin -c "Docker image user" <%= user %> \
- && chown -R <%= user %>:<%= group %> <%= homedir %>
-WORKDIR <%= homedir %>
+RUN mkdir -p /home/app/ \
+ && groupadd -r app -g 777 \
+ && useradd -u 666 -r -g app -d /home/app/ -s /sbin/nologin -c "Docker image user" app \
+ && chown -R app:app /home/app/
+WORKDIR /home/app/
 
 ###### App Setup
 # gems may be cacheable, so do minimal work first to
