@@ -32,7 +32,7 @@ private
   end
 
   def clone_repository
-    repositories_path = Rails.root.join('tmp')
+    repositories_path = Rails.root.join('tmp/repos')
 
     Repository.clone(repositories_path, task, &Proc.new)
   end

@@ -7,6 +7,7 @@ require_relative 'repository/diff'
 class Repository
   class << self
     def clone(repos_dir, task)
+      started_at = Time.zone.now
       repo = Rugged::Repository.clone_at(
         task.clone_url,
         File.join(repos_dir, task.slug)
@@ -14,14 +15,11 @@ class Repository
       repo.checkout(task.head_sha, strategy: :force)
 
       repository = new(repo)
-
-      if block_given?
-        yield repository
-
-        repository.destroy!
-      end
+      yield repository, started_at, Time.zone.now if block_given?
 
       repository
+    ensure
+      repository.destroy! if block_given?
     end
   end
 

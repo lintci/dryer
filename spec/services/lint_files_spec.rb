@@ -4,14 +4,18 @@ describe LintFiles do
   describe '#call' do
     let(:event){build(:lint_task_requested_event)}
     let(:violation_attributes){attributes_for(:violation)}
+    let(:workdir){build(:workdir)}
     subject(:service){described_class}
 
     it 'sends task started, file linted, and task finished events' do
       expect_linter = expect_any_instance_of(LintTrap::Linter::RuboCop)
       expect_linter.to receive(:lint).and_yield(
-        violation_attributes.merge(file: 'bad1.rb')
+        violation_attributes.merge(file: File.join(workdir, 'bad1.rb'))
       ).and_yield(
-        violation_attributes.merge(file: 'bad2.rb')
+        violation_attributes.merge(file: File.join(workdir, 'bad2.rb'))
+      )
+      expect_any_instance_of(LintTrap::Container::Docker).to receive(:pull).and_return(
+        ['lintci/rubocop', Time.stamp_time, Time.stamp_time]
       )
 
       expect do
@@ -64,7 +68,7 @@ describe LintFiles do
                 'length' => 4,
                 'rule' => 'Style/MethodName',
                 'severity' => 'convention',
-                'message' => 'Use snake_case for methods.'
+                'message' => 'Use snake_case for method names.'
               }
             ]
           },
@@ -103,7 +107,7 @@ describe LintFiles do
                 'length' => 4,
                 'rule' => 'Style/MethodName',
                 'severity' => 'convention',
-                'message' => 'Use snake_case for methods.'
+                'message' => 'Use snake_case for method names.'
               }
             ]
           },

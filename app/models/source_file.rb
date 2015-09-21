@@ -10,7 +10,8 @@ class SourceFile
     attribute :sha, String
     attribute :workdir, String
     attribute :modified_lines, Array[Integer], default: []
-    attribute :language, LintTrap::Language::Base
+    attribute :language, String
+    attribute :linters, Array[String], default: []
     attribute :size, Integer
     attribute :extension, String
     attribute :binary, Boolean
@@ -32,7 +33,8 @@ class SourceFile
         name: name,
         sha: sha,
         modified_lines: lines,
-        language: language,
+        language: language.name,
+        linters: language ? language.linters.map(&:name) : [],
         extension: blob.extension,
         size: blob.size,
         binary: blob.binary? || false,
@@ -46,21 +48,17 @@ class SourceFile
   end
 
   def source_type
-    if language
-      language.name
+    if language && language != 'Unknown'
+      language
     elsif image?
       extension[1..-1].upcase
     elsif documentation?
       'Documentation'
     elsif binary?
       'Binary'
+    else
+      language
     end
-  end
-
-  def linters
-    return [] unless language
-
-    language.linters
   end
 
   def path

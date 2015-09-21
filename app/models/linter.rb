@@ -2,15 +2,25 @@
 class Linter
   def initialize(name, workdir, source_files)
     @linter = LintTrap::Linter.find(name)
-    @containter = LintTrap::Container::Docker.new('lintci/lint_trap', workdir)
+    @workdir = Pathname.new(workdir)
+    @container = LintTrap::Container::Docker.new(linter.image_version, workdir)
     @source_files = source_files
   end
 
+  def setup
+    started_at = Time.zone.now
+    container.pull
+
+    [container.image, started_at, Time.zone.now]
+  end
+
   def lint(options)
-    started_at, clean = Time.now, true
+    started_at = Time.zone.now
+    clean = true
 
     each_linted_file(options) do |source_file|
-      finished_at, clean = Time.now, false
+      finished_at = Time.zone.now
+      clean = false
 
       yield source_file, started_at, finished_at
 
@@ -22,7 +32,7 @@ class Linter
 
 protected
 
-  attr_reader :linter, :container, :source_files
+  attr_reader :linter, :workdir, :container, :source_files
 
 private
 
@@ -37,7 +47,7 @@ private
 
   def files
     @files ||= source_files.each_with_object({}) do |file, files|
-      files[file.name] = file
+      files[workdir.join(file.name).to_s] = file
     end
   end
 end

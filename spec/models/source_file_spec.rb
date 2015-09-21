@@ -18,8 +18,8 @@ describe SourceFile do
   its(:workdir){is_expected.to eq(workdir)}
   its(:modified_lines){is_expected.to eq((1..4).to_a)}
   its(:path){is_expected.to eq(File.join(workdir, name))}
-  its(:language){is_expected.to eq(LintTrap::Language::Ruby.new)}
-  its(:linters){is_expected.to eq([LintTrap::Linter::RuboCop.new])}
+  its(:language){is_expected.to eq('Ruby')}
+  its(:linters){is_expected.to eq(['RuboCop'])}
   its(:size){is_expected.to eq(31)}
   its(:extension){is_expected.to eq('.rb')}
   it{is_expected.to_not be_binary}

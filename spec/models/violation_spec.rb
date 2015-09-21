@@ -8,8 +8,8 @@ describe Violation do
   its(:length){is_expected.to eq(4)}
   its(:rule){is_expected.to eq('Style/MethodName')}
   its(:severity){is_expected.to eq('convention')}
-  its(:message){is_expected.to eq('Use snake_case for methods.')}
-  its(:inspect){is_expected.to eq('<Violation 2:7:4 Style/MethodName:convention:Use snake_case for methods.>')}
+  its(:message){is_expected.to eq('Use snake_case for method names.')}
+  its(:inspect){is_expected.to eq('<Violation 2:7:4 Style/MethodName:convention:Use snake_case for method names.>')}
 
   describe '#==' do
     context 'when violation data is the same' do

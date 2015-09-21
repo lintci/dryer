@@ -9,7 +9,7 @@ class AnalyzeFiles < TaskService
   def call
     start_task
 
-    clone_repository do |repo|
+    clone_repository do |repo, _clone_started_at, _clone_finished_at|
       files = repo.source_files(task.base_sha, task.head_sha)
       analysis = analyze(files)
 

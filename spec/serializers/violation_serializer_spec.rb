@@ -13,7 +13,7 @@ describe ViolationSerializer do
           length: 4,
           rule: 'Style/MethodName',
           severity: 'convention',
-          message: 'Use snake_case for methods.'
+          message: 'Use snake_case for method names.'
         }
       )
     end

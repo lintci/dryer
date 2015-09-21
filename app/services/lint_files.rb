@@ -9,7 +9,7 @@ class LintFiles < TaskService
   def call
     start_task
 
-    clone_repository do |repo|
+    clone_repository do |repo, _clone_started_at, _clone_finished_at|
       clean = lint(repo) do |source_file, started_at, finished_at|
         file_linted(source_file, started_at, finished_at)
       end
@@ -22,6 +22,8 @@ private
 
   def lint(repo)
     linter = Linter.new(task.tool, repo.workdir, task.source_files)
+    _image, _setup_started_at, _setup_finished_at = linter.setup
+
     linter.lint({}) do |source_file, started_at, finished_at|
       yield source_file, started_at, finished_at
     end

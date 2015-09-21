@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.2'
+ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -11,7 +11,7 @@ gem 'sdoc', '~> 0.4.0',      group: :doc
 gem 'spring',    group: :development
 
 gem 'sidekiq'
-gem 'rugged', '~> 0.22.0b4'
+gem 'rugged'
 gem 'github-linguist'
 gem 'octokit'
 gem 'lint_trap'

@@ -172,10 +172,10 @@ describe AnalyzeFiles do
             }, {
               'name' => 'lint.txt',
               'sha' => 'dfea5994965f3bc2e0adaa57922f30b11c5bcf13',
-              'language' => 'Text',
+              'language' => 'Unknown',
               'linters' => ['Unknown'],
               'modified_lines' => [1],
-              'source_type' => 'Text',
+              'source_type' => 'Unknown',
               'size' => 5,
               'extension' => '.txt',
               'binary' => false,

@@ -19,7 +19,61 @@ FactoryGirl.define do
 
     factory :lint_task_requested_event do
       type 'lint_task'
-      data{attributes_for(:lint_task).deep_stringify_keys}
+      data do
+        {
+          'id' => 1,
+          'type' => 'LintTask',
+          'status' => 'scheduled',
+          'language' => 'Ruby',
+          'tool' => 'RuboCop',
+          'build' => {
+            'id' => 1,
+            'pull_request' => {
+              'id' => 1,
+              'base_sha' => 'bbf813a806dacf043a592f04a0ed320236caca3a',
+              'head_sha' => '6dbc62fe88432b6f9489a3d9f00dddf955a44c4e',
+              'branch' => 'mostly-bad',
+              'clone_url' => 'git://github.com/lintci/guinea_pig.git',
+              'owner' => 'lintci',
+              'repo' => 'guinea_pig'
+            }
+          },
+          'source_files' => [
+            {
+              'id' => 1,
+              'name' => 'bad1.rb',
+              'sha' => 'cbc7b6a779837b93563e69511d44cb35051ed712',
+              'source_type' => 'Ruby',
+              'language' => 'Ruby',
+              'linters' => ['RuboCop'],
+              'modified_lines' => [1, 2, 3, 4],
+              'extension' => '.rb',
+              'size' => 31,
+              'generated' => false,
+              'vendored' => false,
+              'documentation' => false,
+              'binary' => false,
+              'image' => false
+            },
+            {
+              'id' => 2,
+              'name' => 'bad2.rb',
+              'sha' => 'cbc7b6a779837b93563e69511d44cb35051ed712',
+              'source_type' => 'Ruby',
+              'language' => 'Ruby',
+              'linters' => ['RuboCop'],
+              'modified_lines' => [1, 2, 3, 4],
+              'extension' => '.rb',
+              'size' => 31,
+              'generated' => false,
+              'vendored' => false,
+              'documentation' => false,
+              'binary' => false,
+              'image' => false
+            }
+          ]
+        }
+      end
     end
   end
 end

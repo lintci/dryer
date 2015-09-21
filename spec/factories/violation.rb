@@ -5,7 +5,7 @@ FactoryGirl.define do
     length '4'
     rule 'Style/MethodName'
     severity 'convention'
-    message 'Use snake_case for methods.'
+    message 'Use snake_case for method names.'
 
     initialize_with{new(attributes)}
 

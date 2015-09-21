@@ -25,7 +25,7 @@ describe Repository do
     it 'yields a repository' do
       expect do |b|
         Repository.clone(repositories_path, task, &b)
-      end.to yield_with_args(be_a(Repository))
+      end.to yield_with_args(be_a(Repository), be_a(Time), be_a(Time))
     end
 
     it 'checks out the correct commit' do
