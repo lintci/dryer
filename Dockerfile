@@ -32,6 +32,7 @@ COPY . /home/app/
 
 VOLUME /var/lib/docker
 
-ENV REDIS_URL=CHANGEME
+ENV REDIS_URL=CHANGEME \
+    SSH_PASSPHRASE=CHANGEME
 
 CMD foreman start worker

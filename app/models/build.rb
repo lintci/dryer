@@ -4,6 +4,8 @@ class Build
 
   values do
     attribute :id, Integer
+    attribute :ssh_public_key, String
+    attribute :ssh_private_key, String
     attribute :pull_request, PullRequest
   end
 

@@ -14,7 +14,7 @@ class Task
     attribute :source_files, Array[SourceFile], default: []
   end
 
-  delegate :pull_request, to: :build
+  delegate :pull_request, :ssh_public_key, :ssh_private_key, to: :build
   delegate :head_sha, :base_sha, :clone_url, to: :pull_request
 
   def slug
