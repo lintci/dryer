@@ -1,4 +1,4 @@
-FROM tutum.co/lintci/ruby:2.2.3
+FROM ruby:2.2.3
 MAINTAINER LintCI
 
 ###### Install packages necessary for github-linguist and rugged
