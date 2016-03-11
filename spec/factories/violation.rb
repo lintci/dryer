@@ -1,5 +1,8 @@
+require 'securerandom'
+
 FactoryGirl.define do
   factory :violation do
+    id{SecureRandom.uuid}
     line '2'
     column '7'
     length '4'

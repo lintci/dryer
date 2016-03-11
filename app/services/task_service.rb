@@ -6,29 +6,24 @@ class TaskService
     end
   end
 
-  def initialize(data)
-    @event = data['meta']['event']
-    @event_id = data['meta']['event_id']
-    @started_at = Time.stamp
-  end
-
 protected
 
   attr_reader :event, :event_id, :task, :started_at
 
 private
 
-  def start_task
-    serializer = TaskSerializer.new(
-      task,
-      meta: {
-        event: event,
-        event_id: event_id,
-        started_at: started_at
-      }
-    )
+  def serialize_task(task, options = {})
+    serialize(task, options.merge(serializer: serializer))
+  end
 
-    TaskStartedWorker.perform_async(serializer.as_json)
+  def serialize(object, options = {})
+    ActiveModel::SerializableResource.new(object, options).as_json
+  end
+
+  def start_task
+    json = serialize_task(task, meta: meta.merge!(task_started_at: Time.stamp))
+
+    TaskStartedWorker.perform_async(json)
   end
 
   def clone_repository

@@ -34,6 +34,7 @@ RSpec.configure do |config|
   # with RSpec, but feel free to customize to your heart's content.
   config.include FixtureFile
   config.include FactoryGirl::Syntax::Methods
+  config.include JSONAPIMatcher
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
@@ -99,4 +100,6 @@ RSpec.configure do |config|
     FileUtils.rm_rf(Rails.root.join('tmp/lintci'))
     FileUtils.rm_rf(Rails.root.join('tmp/repos'))
   end
+
+  config.example_status_persistence_file_path = './spec/examples.txt'
 end

@@ -1,5 +1,6 @@
 # Wraps data about a pull request
 class PullRequest
+  extend ActiveModel::Naming
   include Virtus.value_object
 
   values do

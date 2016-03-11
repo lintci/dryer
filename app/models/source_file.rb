@@ -1,11 +1,13 @@
 require 'lint_trap'
+require 'securerandom'
 
 # Tracks modified file information like line changes and file language
 class SourceFile
+  extend ActiveModel::Naming
   include Virtus.value_object
 
   values do
-    attribute :id, Integer
+    attribute :id, String, default: ->(*){SecureRandom.uuid}
     attribute :name, String
     attribute :sha, String
     attribute :workdir, String
@@ -70,7 +72,7 @@ class SourceFile
   end
 
   def inspect
-    "<SourceFile: #{name}"\
+    "<SourceFile: #{id} #{name}"\
     " sha=#{sha[0...6]}"\
     " type=#{source_type}"\
     " size=#{formatted_size}"\

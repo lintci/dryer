@@ -1,11 +1,15 @@
+require 'securerandom'
+
 # Wraps information about linting violations
 class Violation
+  extend ActiveModel::Naming
   include Virtus.value_object
 
-  ERROR = 'error'
-  WARNING = 'warning'
+  ERROR = 'error'.freeze
+  WARNING = 'warning'.freeze
 
   values do
+    attribute :id, String, default: ->(*){SecureRandom.uuid}
     attribute :line, Integer
     attribute :column, Integer
     attribute :length, Integer
@@ -23,7 +27,7 @@ class Violation
   end
 
   def inspect
-    "<Violation #{line}:#{column}:#{length} #{rule}:#{severity}:#{message}>"
+    "<Violation: #{id} #{line}:#{column}:#{length} #{rule}:#{severity}:#{message}>"
   end
 
   def read_attribute_for_serialization(name)

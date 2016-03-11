@@ -5,7 +5,7 @@ describe Linter do
     let(:first_source_file){build(:source_file)}
     let(:second_source_file){build(:source_file, name: 'bad2.rb')}
     let(:source_files){[first_source_file, second_source_file]}
-    let(:violation){build(:violation)}
+    let(:violation){build(:violation, violation_attributes)}
     let(:violation_attributes){attributes_for(:violation)}
     let(:workdir){build(:workdir)}
     subject(:linter){Linter.new('RuboCop', workdir, source_files)}
@@ -30,9 +30,21 @@ describe Linter do
       subject(:linter){Linter.new('RuboCop', build(:fixtures_dir), source_files)}
 
       it 'yields source files with their violations' do
-        expect{|b| linter.lint({}, &b)}.to yield_successive_args(
-          [first_source_file.with(violations: [violation]), be_a(Time), be_a(Time)]
-        )
+        linter.lint({}) do |source_file, started_at, finished_at|
+          expect(source_file.id).to eq(first_source_file.id)
+
+          source_violation = source_file.violations.first
+          expect(source_violation).to have_attributes(
+            line: violation.line,
+            column: violation.column,
+            length: violation.length,
+            rule: violation.rule,
+            severity: violation.severity,
+            message: violation.message
+          )
+
+          expect(started_at).to be <= finished_at
+        end
       end
     end
   end

@@ -10,7 +10,8 @@ AllCops:
     - 'vendor/**'
     - 'spec/fixtures/**'
     - 'bin/**'
-  RunRailsCops: true
+  Rails:
+    Enabled: true
 
 # Indent private/protected/public as deep as method definitions
 AccessModifierIndentation:

@@ -2,8 +2,9 @@
 # laundromat of the results.
 class LintFiles < TaskService
   def initialize(data)
-    super(data)
-    @task = LintTask.new(data['lint_task'])
+    task_data, @meta = JSONAPIResource.new(data).deserialize
+
+    @task = LintTask.new(task_data)
   end
 
   def call
@@ -18,47 +19,51 @@ class LintFiles < TaskService
     end
   end
 
+protected
+
+  attr_reader :meta
+
 private
 
+  def serializer
+    Msg::V1::LintTaskSerializer
+  end
+
   def lint(repo)
-    linter = Linter.new(task.tool, repo.workdir, task.source_files)
-    _image, _setup_started_at, _setup_finished_at = linter.setup
+    linter = setup_linter(repo)
 
     linter.lint({}) do |source_file, started_at, finished_at|
       yield source_file, started_at, finished_at
     end
   end
 
-  def file_linted(source_file, started_at, finished_at)
-    serializer = SourceFileSerializer.new(
-      source_file,
-      meta: {
-        event: event,
-        event_id: event_id,
-        task_id: task.id,
-        started_at: started_at.stamp,
-        finished_at: finished_at.stamp
-      }
+  def setup_linter(repo)
+    linter = Linter.new(task.tool, repo.workdir, task.source_files)
+    image, setup_started_at, setup_finished_at = linter.setup
+
+    meta.merge!(
+      docker_image: image,
+      setup_started_at: setup_started_at.stamp,
+      setup_finished_at: setup_finished_at.stamp
     )
 
-    FileLintedWorker.perform_async(serializer.as_json)
+    linter
+  end
+
+  def file_linted(source_file, started_at, finished_at)
+    json = serialize_task(
+      task.with(source_files: [source_file]),
+      meta: meta.merge(started_at: started_at.stamp, finished_at: finished_at.stamp),
+      include: 'source_files.violations',
+      serializer: Msg::V1::SourceFileSerializer
+    )
+
+    FileLintedWorker.perform_async(json)
   end
 
   def finish_task(clean)
-    serializer = LintingSerializer.new(
-      linting(clean),
-      meta: {
-        event: event,
-        event_id: event_id,
-        started_at: started_at,
-        finished_at: Time.stamp
-      }
-    )
+    json = serialize_task(task, meta: meta.merge!(task_finished_at: Time.stamp, clean: clean))
 
-    LintTaskCompletedWorker.perform_async(serializer.as_json)
-  end
-
-  def linting(clean)
-    Linting.new(task_id: task.id, clean: clean)
+    LintTaskCompletedWorker.perform_async(json)
   end
 end

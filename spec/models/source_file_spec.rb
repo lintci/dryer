@@ -30,15 +30,15 @@ describe SourceFile do
   its(:violations){is_expected.to eq([])}
   its(:to_s){is_expected.to eq('bad.rb')}
   its(:inspect) do
-    is_expected.to eq(
-      '<SourceFile: bad.rb sha=cbc7b6 type=Ruby size=31 Bytes modified_lines=[1, 2, 3, 4]'\
+    is_expected.to match(
+      "<SourceFile: #{subject.id} bad.rb sha=cbc7b6 type=Ruby size=31 Bytes modified_lines=[1, 2, 3, 4]"\
       ' binary=false generated=false vendored=false documentation=false image=false>'
     )
   end
 
   describe '#source_type' do
     context 'when source file has a language' do
-      subject(:file){build(:ruby_source_file)}
+      subject(:file){build(:ruby_source_file, workdir: workdir)}
 
       it 'retuns the language' do
         expect(file.source_type).to eq('Ruby')
@@ -46,7 +46,7 @@ describe SourceFile do
     end
 
     context 'when source file is an image' do
-      subject(:file){build(:png_source_file)}
+      subject(:file){build(:png_source_file, workdir: workdir)}
 
       it 'returns the image type' do
         expect(file.source_type).to eq('PNG')
@@ -54,7 +54,7 @@ describe SourceFile do
     end
 
     context 'when source file is documentation' do
-      subject(:file){build(:license_source_file)}
+      subject(:file){build(:license_source_file, workdir: workdir)}
 
       it 'returns Documentation' do
         expect(file.source_type).to eq('Documentation')
@@ -62,7 +62,7 @@ describe SourceFile do
     end
 
     context 'when source file is an image' do
-      subject(:file){build(:pdf_source_file)}
+      subject(:file){build(:pdf_source_file, workdir: workdir)}
 
       it 'returns Binary' do
         expect(file.source_type).to eq('Binary')
